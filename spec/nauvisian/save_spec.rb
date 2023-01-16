@@ -42,7 +42,7 @@ RSpec.describe Nauvisian::Save do
         end
 
         it "includes only the base MOD" do
-          expect(save.mods).to eq [Nauvisian::Mod[name: "base", version: Nauvisian::Mod::Version["1.1.74"], crc: 4211423066]]
+          expect(save.mods).to eq [Nauvisian::Mod[name: "base", version: Nauvisian::Mod::Version["1.1.74"], crc: 4_211_423_066]]
         end
       end
 
@@ -56,9 +56,9 @@ RSpec.describe Nauvisian::Save do
         it "includes base and other MODs in the save" do
           expect(save.mods.map(&:name)).to contain_exactly(*%w(base AutoDeconstruct even-distribution))
           expect(save.mods).to contain_exactly(
-            Nauvisian::Mod[name: "base", version: Nauvisian::Mod::Version["1.1.74"], crc: 4211423066],
-            Nauvisian::Mod[name: "AutoDeconstruct", version: Nauvisian::Mod::Version["0.3.5"], crc: 2741496923],
-            Nauvisian::Mod[name: "even-distribution", version: Nauvisian::Mod::Version["1.0.10"], crc: 3296431338]
+            Nauvisian::Mod[name: "base", version: Nauvisian::Mod::Version["1.1.74"], crc: 4_211_423_066],
+            Nauvisian::Mod[name: "AutoDeconstruct", version: Nauvisian::Mod::Version["0.3.5"], crc: 2_741_496_923],
+            Nauvisian::Mod[name: "even-distribution", version: Nauvisian::Mod::Version["1.0.10"], crc: 3_296_431_338]
           )
         end
       end
