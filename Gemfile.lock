@@ -50,6 +50,13 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.24.1)
       parser (>= 3.1.1.0)
+    rubocop-performance (1.15.2)
+      rubocop (>= 1.7.0, < 2.0)
+      rubocop-ast (>= 0.4.0)
+    rubocop-rake (0.6.0)
+      rubocop (~> 1.0)
+    rubocop-rspec (2.17.0)
+      rubocop (~> 1.33)
     ruby-progressbar (1.11.0)
     rubyzip (2.3.2)
     unicode-display_width (2.4.2)
@@ -63,6 +70,9 @@ DEPENDENCIES
   rake (~> 13.0)
   rspec (~> 3.0)
   rubocop (~> 1.21)
+  rubocop-performance
+  rubocop-rake
+  rubocop-rspec
 
 BUNDLED WITH
    2.4.3
