@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "nauvisian/mod"
+require_relative "nauvisian/save"
 require_relative "nauvisian/version"
 
 module Nauvisian

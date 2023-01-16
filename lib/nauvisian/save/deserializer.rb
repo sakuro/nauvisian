@@ -58,7 +58,7 @@ module Nauvisian
       end
 
       def read_str
-        length = read_optim_uint32
+        length = read_optim_u32
         read_bytes(length).force_encoding(Encoding::UTF_8)
       end
 
