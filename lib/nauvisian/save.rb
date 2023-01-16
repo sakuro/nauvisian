@@ -8,7 +8,7 @@ module Nauvisian
   Save = Data.define(:version, :mods) # rubocop:disable Style/ConstantVisibility
 
   class Save
-    LEVEL_FILE_NAMES = %w(level.dat0 level-init.dat)
+    LEVEL_FILE_NAMES = %w(level.dat0 level-init.dat).freeze
     private_constant :LEVEL_FILE_NAMES
     LEVEL_FILE_NAMES_GLOB = File.join("*", "level{.dat0,-init.dat}")
     private_constant :LEVEL_FILE_NAMES_GLOB
