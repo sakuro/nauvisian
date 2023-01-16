@@ -39,7 +39,7 @@ module Nauvisian
                   # level-init.dat
                   return stream
                 end
-            end
+              end
             end
           end
           raise Errno::ENOENT, "No initial level file"
