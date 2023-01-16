@@ -26,20 +26,15 @@ module Nauvisian
           candidate_entries = zip_file.glob(LEVEL_FILE_NAMES_GLOB)
           LEVEL_FILE_NAMES.each do |file_name|
             candidate_entries.each do |entry|
-              if File.basename(entry.name) == file_name
-                stream = entry.get_input_stream
-                # ZLIB Compressed Data Format Specification version 3.3
-                # 2.2 Data Format https://www.rfc-editor.org/rfc/rfc1950#section-2.2
-                cmf = stream.read(1).unpack1("C")
-                stream.rewind
-                if cmf == 0x78 # 32K window, deflate
-                  # level.dat0
-                  return StringIO.new(Zlib.inflate(stream.read))
-                else
-                  # level-init.dat
-                  return stream
-                end
-              end
+              next unless File.basename(entry.name) == file_name
+
+              stream = entry.get_input_stream
+              # ZLIB Compressed Data Format Specification version 3.3
+              # 2.2 Data Format https://www.rfc-editor.org/rfc/rfc1950#section-2.2
+              cmf = stream.read(1).unpack1("C")
+              stream.rewind
+              # 32K window, deflate
+              return cmf == 0x78 ? StringIO.new(Zlib.inflate(stream.read)) : stream # level.dat0 : level-init.dat
             end
           end
           raise Errno::ENOENT, "No initial level file"
