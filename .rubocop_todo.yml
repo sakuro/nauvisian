@@ -11,6 +11,9 @@ Bundler/GemComment:
 Bundler/GemVersion:
   Enabled: false
 
+Metrics/AbcSize:
+  Enabled: false
+
 Metrics/ClassLength:
   Enabled: false
 
