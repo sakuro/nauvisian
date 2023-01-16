@@ -1,0 +1,33 @@
+Bundler/GemComment:
+  Enabled: false
+  OnlyFor:
+    - restrictive_version_specifiers
+    - bitbucket
+    - gist
+    - git
+    - github
+    - source
+
+Bundler/GemVersion:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/DocumentationMethod:
+  Enabled: false
