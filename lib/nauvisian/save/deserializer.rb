@@ -25,37 +25,17 @@ module Nauvisian
         end
       end
 
-      def read_u8
-        read_bytes(1).unpack1("C") # uint8
-      end
+      def read_u8 = read_bytes(1).unpack1("C")
+      def read_u16 = read_bytes(2).unpack1("v")
+      def read_u32 = read_bytes(4).unpack1("V")
 
-      def read_u16
-        read_bytes(2).unpack1("v") # little endian uint16
-      end
+      def read_optim_u16 = read_optim(16)
+      def read_optim_u32 = read_optim(32)
 
-      def read_u32
-        read_bytes(4).unpack1("V") # little endian uint32
-      end
+      def read_u16_tuple(length) = Array.new(length) { read_u16 }
+      def read_optim_tuple(bit_size, length) = Array.new(length) { read_optim(bit_size) }
 
-      def read_optim_u16
-        read_optim(16)
-      end
-
-      def read_optim_u32
-        read_optim(32)
-      end
-
-      def read_u16_tuple(length)
-        Array.new(length) { read_u16 }
-      end
-
-      def read_optim_tuple(bit_size, length)
-        Array.new(length) { read_optim(bit_size) }
-      end
-
-      def read_bool
-        read_u8 != 0
-      end
+      def read_bool = read_u8 != 0
 
       def read_str
         length = read_optim_u32

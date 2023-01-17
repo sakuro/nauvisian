@@ -27,13 +27,8 @@ module Nauvisian
 
       protected attr_reader :version
 
-      def to_s
-        "%d.%d.%d" % @version
-      end
-
-      def <=>(other)
-        @version <=> other.version
-      end
+      def to_s = "%d.%d.%d" % @version
+      def <=>(other) = @version <=> other.version
     end
   end
 end

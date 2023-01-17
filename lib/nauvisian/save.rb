@@ -10,17 +10,20 @@ module Nauvisian
   class Save
     LEVEL_FILE_NAMES = %w(level.dat0 level-init.dat).freeze
     private_constant :LEVEL_FILE_NAMES
+
     LEVEL_FILE_NAMES_GLOB = File.join("*", "level{.dat0,-init.dat}")
     private_constant :LEVEL_FILE_NAMES_GLOB
 
     def self.load(zip_path)
       stream = stream(zip_path)
       des = Nauvisian::Save::Deserializer.new(stream)
+
       new(**populate(des))
     end
 
     class << self
       private :new
+
       private def stream(zip_path)
         Zip::File.open(zip_path) do |zip_file|
           candidate_entries = zip_file.glob(LEVEL_FILE_NAMES_GLOB)
@@ -62,28 +65,18 @@ module Nauvisian
         _loaded_from = read_mod_version(des)
         _loaded_from_build = des.read_u16
         _allowed_commands = des.read_u8
+
         { version:, mods: read_mods(des) }
       end
 
-      private def read_save_version(des)
-        Nauvisian::Save::Version[des.read_u16, des.read_u16, des.read_u16, des.read_u16]
-      end
+      private def read_save_version(des) = Nauvisian::Save::Version[des.read_u16, des.read_u16, des.read_u16, des.read_u16]
 
-      private def read_mod_version(des)
-        # Assumed: method arguments are evaluated from left to right but...
-        # https://stackoverflow.com/a/36212870/16014712
-        Nauvisian::Mod::Version[des.read_optim_u32, des.read_optim_u32, des.read_optim_u32]
-      end
+      # Assumed: method arguments are evaluated from left to right but...
+      # https://stackoverflow.com/a/36212870/16014712
 
-      private def read_mod(des)
-        # Assumed: method arguments are evaluated from left to right but...
-        # https://stackoverflow.com/a/36212870/16014712
-        Nauvisian::Mod[name: des.read_str.freeze, version: read_mod_version(des), crc: des.read_u32.freeze]
-      end
-
-      private def read_mods(des)
-        Array.new(des.read_optim_u32) { read_mod(des) }.freeze
-      end
+      private def read_mod_version(des) = Nauvisian::Mod::Version[des.read_optim_u32, des.read_optim_u32, des.read_optim_u32]
+      private def read_mod(des) = Nauvisian::Mod[name: des.read_str.freeze, version: read_mod_version(des), crc: des.read_u32.freeze]
+      private def read_mods(des) = Array.new(des.read_optim_u32) { read_mod(des) }.freeze
     end
   end
 end
