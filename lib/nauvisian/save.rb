@@ -75,8 +75,15 @@ module Nauvisian
       # https://stackoverflow.com/a/36212870/16014712
 
       private def read_mod_version(des) = Nauvisian::Mod::Version[des.read_optim_u32, des.read_optim_u32, des.read_optim_u32]
-      private def read_mod(des) = Nauvisian::Mod[name: des.read_str.freeze, version: read_mod_version(des), crc: des.read_u32.freeze]
-      private def read_mods(des) = Array.new(des.read_optim_u32) { read_mod(des) }.freeze
+
+      private def read_mod(des)
+        mod = Nauvisian::Mod[name: des.read_str.freeze]
+        version = read_mod_version(des)
+        _crc = des.read_u32.freeze
+        [mod, version]
+      end
+
+      private def read_mods(des) = Array.new(des.read_optim_u32) { read_mod(des) }.to_h.freeze
     end
   end
 end
