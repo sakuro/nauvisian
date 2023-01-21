@@ -92,6 +92,7 @@ RSpec.describe Nauvisian::API do
       it "returns array of Nauvisian::Mod::Release" do
         expect(api.releases(mod)).to contain_exactly(
           Nauvisian::Mod::Release[
+            mod: mod,
             download_url:  URI("https://mods.factorio.com/download/test-mod/0123456789abcdef01234567"),
             file_name: "test-mod_0.0.1.zip",
             released_at: Time.parse("2023-01-01T00:00:00.000000Z"),
@@ -99,6 +100,7 @@ RSpec.describe Nauvisian::API do
             version: Nauvisian::Mod::Version[0, 0, 1]
           ],
           Nauvisian::Mod::Release[
+            mod: mod,
             download_url:  URI("https://mods.factorio.com/download/test-mod/89abcdef0123456789abcdef"),
             file_name: "test-mod_0.0.2.zip",
             released_at: Time.parse("2023-01-02T01:02:03.000000Z"),
