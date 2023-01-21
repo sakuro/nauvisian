@@ -4,10 +4,8 @@ require_relative "mod"
 
 require "rack/utils"
 
-require "digest/sha1"
 require "json"
 require "net/https"
-require "open-uri"
 
 module Nauvisian
   # Mod Portal API
@@ -15,9 +13,6 @@ module Nauvisian
   class API
     MOD_PORTAL_ENDPOINT_URI = URI("https://mods.factorio.com").freeze
     public_constant :MOD_PORTAL_ENDPOINT_URI
-
-    class Error < StandardError; end
-    class ModNotFound < Error; end
 
     def detail(mod)
       path = "/api/mods/#{mod.name}"
@@ -29,7 +24,7 @@ module Nauvisian
     def releases(mod)
       path = "/api/mods/#{mod.name}"
       raw_data = get(path)
-      parse_releases(raw_data[:releases], mod: mod)
+      parse_releases(raw_data[:releases], mod:)
     end
 
     private def parse_releases(raw_releases, mod:)
@@ -50,9 +45,9 @@ module Nauvisian
       when Net::HTTPOK
         JSON.parse(res.body, symbolize_names: true)
       when Net::HTTPNotFound
-        raise ModNotFound, JSON.parse(res.body, symbolize_names: true)[:message]
+        raise Nauvisian::NotFound, JSON.parse(res.body, symbolize_names: true)[:message]
       else
-        raise Error
+        raise Nauvisian::Error
       end
     end
 

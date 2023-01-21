@@ -8,5 +8,8 @@ require_relative "nauvisian/version"
 
 module Nauvisian
   class Error < StandardError; end
-  # Your code goes here...
+  class NotFound < Error; end
+  class AuthError < Error; end
+  class DigestError < Error; end
+  class TooManyRedirections < Error; end
 end

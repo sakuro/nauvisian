@@ -13,8 +13,8 @@ RSpec.describe Nauvisian::API do
         )
       end
 
-      it "raisess ModNotFound" do
-        expect { api.detail(mod) }.to raise_error(Nauvisian::API::ModNotFound)
+      it "raisess NotFound" do
+        expect { api.detail(mod) }.to raise_error(Nauvisian::NotFound)
       end
     end
 
@@ -48,8 +48,8 @@ RSpec.describe Nauvisian::API do
         )
       end
 
-      it "raisess ModNotFound" do
-        expect { api.releases(mod) }.to raise_error(Nauvisian::API::ModNotFound)
+      it "raisess NotFound" do
+        expect { api.releases(mod) }.to raise_error(Nauvisian::NotFound)
       end
     end
 
