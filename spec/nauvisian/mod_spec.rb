@@ -6,7 +6,7 @@ RSpec.describe Nauvisian::Mod do
       let(:mod) { Fabricate(:mod, name: "base") }
 
       it "is truthy" do
-        expect(mod.base?).to be_truthy
+        expect(mod).to be_base
       end
     end
 
@@ -14,7 +14,7 @@ RSpec.describe Nauvisian::Mod do
       let(:mod) { Fabricate(:mod) }
 
       it "is falsy" do
-        expect(mod.base?).to be_falsy
+        expect(mod).not_to be_base
       end
     end
   end
