@@ -3,17 +3,13 @@
 RSpec.describe Nauvisian::API do
   let(:api) { Nauvisian::API.new }
 
-  class ::Nauvisian::API
-    public_constant :MOD_PORTAL_ENDPOINT_URI
-  end
-
   describe "#detail" do
     let(:mod) { Nauvisian::Mod[name: "test-mod"] }
 
     context "when given mod does not exist" do
       before do
         stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/test-mod").to_return(
-          body: JSON.generate("message" => "Mod not found"),
+          body: JSON.generate(message: "Mod not found"),
           status: 404
         )
       end
@@ -27,13 +23,13 @@ RSpec.describe Nauvisian::API do
       before do
         stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/test-mod").to_return(
           body: JSON.generate(
-            "category": "general",
-            "downloads_count": 123,
-            "name": "test-mod",
-            "owner": "not-a-user",
-            "releases": [],
-            "summary": "A test MOD for RSpec",
-            "title": "A test MOD"
+            category: "general",
+            downloads_count: 123,
+            name: "test-mod",
+            owner: "not-a-user",
+            releases: [],
+            summary: "A test MOD for RSpec",
+            title: "A test MOD"
           ),
           status: 200
         )
@@ -58,7 +54,7 @@ RSpec.describe Nauvisian::API do
     context "when given mod does not exist" do
       before do
         stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/test-mod").to_return(
-          body: JSON.generate("message" => "Mod not found"),
+          body: JSON.generate(message: "Mod not found"),
           status: 404
         )
       end
@@ -72,22 +68,22 @@ RSpec.describe Nauvisian::API do
       before do
         stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/test-mod").to_return(
           body: JSON.generate(
-            "releases": [
+            releases: [
               {
-                "download_url": "/download/test-mod/0123456789abcdef01234567",
-                "file_name": "test-mod_0.0.1.zip",
-                "released_at": "2023-01-01T00:00:00.000000Z",
-                "sha1": "0123456789abcdef0123456789abcdef01234567",
-                "version": "0.0.1"
+                download_url: "/download/test-mod/0123456789abcdef01234567",
+                file_name: "test-mod_0.0.1.zip",
+                released_at: "2023-01-01T00:00:00.000000Z",
+                sha1: "0123456789abcdef0123456789abcdef01234567",
+                version: "0.0.1"
               },
               {
-                "download_url": "/download/test-mod/89abcdef0123456789abcdef",
-                "file_name": "test-mod_0.0.2.zip",
-                "released_at": "2023-01-02T01:02:03.000000Z",
-                "sha1": "89abcdef0123456789abcdef0123456789abcdef",
-                "version": "0.0.2"
+                download_url: "/download/test-mod/89abcdef0123456789abcdef",
+                file_name: "test-mod_0.0.2.zip",
+                released_at: "2023-01-02T01:02:03.000000Z",
+                sha1: "89abcdef0123456789abcdef0123456789abcdef",
+                version: "0.0.2"
               }
-            ],
+            ]
           ),
           status: 200
         )

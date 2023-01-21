@@ -14,7 +14,7 @@ module Nauvisian
   # https://wiki.factorio.com/Mod_portal_API
   class API
     MOD_PORTAL_ENDPOINT_URI = URI("https://mods.factorio.com").freeze
-    private_constant :MOD_PORTAL_ENDPOINT_URI
+    public_constant :MOD_PORTAL_ENDPOINT_URI
 
     class Error < StandardError; end
     class ModNotFound < Error; end
