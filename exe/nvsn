@@ -1,0 +1,4 @@
+require "nauvisian/cli"
+
+Zip.warn_invalid_date = false
+Dry::CLI.new(Nauvisian::CLI::Commands).call
