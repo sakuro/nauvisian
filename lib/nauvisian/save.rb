@@ -73,7 +73,6 @@ module Nauvisian
 
       # Assumed: method arguments are evaluated from left to right but...
       # https://stackoverflow.com/a/36212870/16014712
-
       private def read_mod_version(des) = Nauvisian::Mod::Version[des.read_optim_u32, des.read_optim_u32, des.read_optim_u32]
 
       private def read_mod(des)
