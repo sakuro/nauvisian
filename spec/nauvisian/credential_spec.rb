@@ -59,6 +59,10 @@ RSpec.describe Nauvisian::Credential do
         end
       end
 
+      after do
+        FileUtils.rm_f(unreadable_player_data_file_path)
+      end
+
       it "raises Error::EACCES" do
         expect { Nauvisian::Credential.from_player_data_file(player_data_file_path: unreadable_player_data_file_path) }.to raise_error(Errno::EACCES)
       end
