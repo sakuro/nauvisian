@@ -5,7 +5,7 @@ require "zlib"
 require "zip"
 
 module Nauvisian
-  Save = Data.define(:version, :mods) # rubocop:disable Style/ConstantVisibility
+  Save = Data.define(:version, :mods)
 
   class Save
     LEVEL_FILE_NAMES = %w(level.dat0 level-init.dat).freeze

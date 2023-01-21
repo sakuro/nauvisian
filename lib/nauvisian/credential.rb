@@ -5,7 +5,7 @@ require "json"
 require "rack/utils"
 
 module Nauvisian
-  Credential = Data.define(:username, :token) # rubocop:disable Style/ConstantVisibility
+  Credential = Data.define(:username, :token)
 
   class Credential
     class << self

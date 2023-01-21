@@ -2,7 +2,7 @@
 
 module Nauvisian
   class Mod
-    Release = Data.define(:mod, :download_url, :file_name, :released_at, :version, :sha1) # rubocop:disable Style/ConstantVisibility
+    Release = Data.define(:mod, :download_url, :file_name, :released_at, :version, :sha1)
 
     class Release
       class << self

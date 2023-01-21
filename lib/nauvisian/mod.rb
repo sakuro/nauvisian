@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Nauvisian
-  Mod = Data.define(:name) do # rubocop:disable Style/ConstantVisibility
+  Mod = Data.define(:name) do
     def base?
       name == "base"
     end

@@ -2,7 +2,7 @@
 
 module Nauvisian
   class Mod
-    Detail = Data.define(:downloads_count, :name, :owner, :summary, :title, :category) # rubocop:disable Style/ConstantVisibility
+    Detail = Data.define(:downloads_count, :name, :owner, :summary, :title, :category)
 
     class Detail
       class << self
