@@ -8,11 +8,16 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.8.1)
+      public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
+    crack (0.4.5)
+      rexml
     debug (1.7.1)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
     diff-lcs (1.5.0)
+    hashdiff (1.0.1)
     io-console (0.6.0)
     irb (1.6.2)
       reline (>= 0.3.0)
@@ -20,6 +25,7 @@ GEM
     parallel (1.22.1)
     parser (3.2.0.0)
       ast (~> 2.4.1)
+    public_suffix (5.0.1)
     rack (3.0.4.1)
     rainbow (3.1.1)
     rake (13.0.6)
@@ -62,6 +68,10 @@ GEM
     ruby-progressbar (1.11.0)
     rubyzip (2.3.2)
     unicode-display_width (2.4.2)
+    webmock (3.18.1)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
 
 PLATFORMS
   arm64-darwin-21
@@ -76,6 +86,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rake
   rubocop-rspec
+  webmock
 
 BUNDLED WITH
    2.4.3
