@@ -30,13 +30,16 @@ RSpec.describe Nauvisian::Credential do
     end
 
     context "when both FACTORIO_SERVICE_USERNAME and FACTORIO_SERVICE_TOKEN are set" do
+      let(:username) { Faker::Internet.username }
+      let(:token) { Faker::Number.hexadecimal(digits: 30) }
+
       before do
-        allow(ENV).to receive(:fetch).with("FACTORIO_SERVICE_USERNAME").and_return("my-username")
-        allow(ENV).to receive(:fetch).with("FACTORIO_SERVICE_TOKEN").and_return("my-token")
+        allow(ENV).to receive(:fetch).with("FACTORIO_SERVICE_USERNAME").and_return(username)
+        allow(ENV).to receive(:fetch).with("FACTORIO_SERVICE_TOKEN").and_return(token)
       end
 
       it "instantiates Credential" do
-        expect(Nauvisian::Credential.from_env).to eq(Nauvisian::Credential[username: "my-username", token: "my-token"])
+        expect(Nauvisian::Credential.from_env).to eq(Nauvisian::Credential[username:, token:])
       end
     end
   end

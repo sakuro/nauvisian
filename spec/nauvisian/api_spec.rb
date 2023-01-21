@@ -2,13 +2,12 @@
 
 RSpec.describe Nauvisian::API do
   let(:api) { Nauvisian::API.new }
+  let(:mod) { Fabricate(:mod) }
 
   describe "#detail" do
-    let(:mod) { Nauvisian::Mod[name: "test-mod"] }
-
     context "when given mod does not exist" do
       before do
-        stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/test-mod").to_return(
+        stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/#{mod.name}").to_return(
           body: JSON.generate(message: "Mod not found"),
           status: 404
         )
@@ -20,40 +19,30 @@ RSpec.describe Nauvisian::API do
     end
 
     context "when given mod exists" do
+      let(:category) { Faker::Lorem.word }
+      let(:downloads_count) { Faker::Number.number(digits: 4) }
+      let(:name) { mod.name }
+      let(:owner) { Faker::Internet.username }
+      let(:summary) { Faker::Lorem.paragraph }
+      let(:title) { Faker::Lorem.sentence }
+
       before do
-        stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/test-mod").to_return(
-          body: JSON.generate(
-            category: "general",
-            downloads_count: 123,
-            name: "test-mod",
-            owner: "not-a-user",
-            releases: [],
-            summary: "A test MOD for RSpec",
-            title: "A test MOD"
-          ),
+        stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/#{mod.name}").to_return(
+          body: JSON.generate(category:, downloads_count:, name:, owner:, releases: [], summary:, title:),
           status: 200
         )
       end
 
       it "returns Nauvisian::Mod::Detail" do
-        expect(api.detail(mod)).to eq(Nauvisian::Mod::Detail[
-          category: "general",
-          downloads_count: 123,
-          name: "test-mod",
-          owner: "not-a-user",
-          summary: "A test MOD for RSpec",
-          title: "A test MOD"
-        ])
+        expect(api.detail(mod)).to eq(Nauvisian::Mod::Detail[category:, downloads_count:, name:, owner:, summary:, title:])
       end
     end
   end
 
   describe "#releases" do
-    let(:mod) { Nauvisian::Mod[name: "test-mod"] }
-
     context "when given mod does not exist" do
       before do
-        stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/test-mod").to_return(
+        stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/#{mod.name}").to_return(
           body: JSON.generate(message: "Mod not found"),
           status: 404
         )
@@ -65,26 +54,15 @@ RSpec.describe Nauvisian::API do
     end
 
     context "when given mod exists" do
+      let(:download_url) { "/download/#{mod.name}/#{Faker::Number.hexadecimal(digits: 24)}" }
+      let(:version) { Faker::App.semantic_version }
+      let(:file_name) { "#{mod.name}_#{version}.zip" }
+      let(:released_at) { Faker::Time.backward(format: :iso8601) }
+      let(:sha1) { Faker::Number.hexadecimal(digits: 40) }
+
       before do
-        stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/test-mod").to_return(
-          body: JSON.generate(
-            releases: [
-              {
-                download_url: "/download/test-mod/0123456789abcdef01234567",
-                file_name: "test-mod_0.0.1.zip",
-                released_at: "2023-01-01T00:00:00.000000Z",
-                sha1: "0123456789abcdef0123456789abcdef01234567",
-                version: "0.0.1"
-              },
-              {
-                download_url: "/download/test-mod/89abcdef0123456789abcdef",
-                file_name: "test-mod_0.0.2.zip",
-                released_at: "2023-01-02T01:02:03.000000Z",
-                sha1: "89abcdef0123456789abcdef0123456789abcdef",
-                version: "0.0.2"
-              }
-            ]
-          ),
+        stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/#{mod.name}").to_return(
+          body: JSON.generate(releases: [download_url:, file_name:, released_at:, sha1:, version:]),
           status: 200
         )
       end
@@ -92,20 +70,12 @@ RSpec.describe Nauvisian::API do
       it "returns array of Nauvisian::Mod::Release" do
         expect(api.releases(mod)).to contain_exactly(
           Nauvisian::Mod::Release[
-            mod: mod,
-            download_url:  URI("https://mods.factorio.com/download/test-mod/0123456789abcdef01234567"),
-            file_name: "test-mod_0.0.1.zip",
-            released_at: Time.parse("2023-01-01T00:00:00.000000Z"),
-            sha1: "0123456789abcdef0123456789abcdef01234567",
-            version: Nauvisian::Mod::Version[0, 0, 1]
-          ],
-          Nauvisian::Mod::Release[
-            mod: mod,
-            download_url:  URI("https://mods.factorio.com/download/test-mod/89abcdef0123456789abcdef"),
-            file_name: "test-mod_0.0.2.zip",
-            released_at: Time.parse("2023-01-02T01:02:03.000000Z"),
-            sha1: "89abcdef0123456789abcdef0123456789abcdef",
-            version: Nauvisian::Mod::Version[0, 0, 2]
+            mod:,
+            download_url: URI("https://mods.factorio.com") + download_url,
+            file_name:,
+            released_at: Time.parse(released_at),
+            sha1:,
+            version: Nauvisian::Mod::Version[version]
           ]
         )
       end

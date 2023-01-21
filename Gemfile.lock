@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     nauvisian (0.1.0)
+      dry-cli
       rack
       rubyzip
 
@@ -11,13 +12,20 @@ GEM
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
+    concurrent-ruby (1.1.10)
     crack (0.4.5)
       rexml
     debug (1.7.1)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
     diff-lcs (1.5.0)
+    dry-cli (1.0.0)
+    fabrication (2.30.0)
+    faker (3.1.0)
+      i18n (>= 1.8.11, < 2)
     hashdiff (1.0.1)
+    i18n (1.12.0)
+      concurrent-ruby (~> 1.0)
     io-console (0.6.0)
     irb (1.6.2)
       reline (>= 0.3.0)
@@ -79,6 +87,8 @@ PLATFORMS
 
 DEPENDENCIES
   debug
+  fabrication
+  faker
   nauvisian!
   rake (~> 13.0)
   rspec (~> 3.0)

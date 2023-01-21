@@ -3,7 +3,7 @@
 RSpec.describe Nauvisian::Mod do
   describe "#base?" do
     context "when it is the base mod" do
-      let(:mod) { Nauvisian::Mod[name: "base"] }
+      let(:mod) { Fabricate(:mod, name: "base") }
 
       it "is truthy" do
         expect(mod.base?).to be_truthy
@@ -11,7 +11,7 @@ RSpec.describe Nauvisian::Mod do
     end
 
     context "when it is not the base mod" do
-      let(:mod) { Nauvisian::Mod[name: "Krastorio2"] }
+      let(:mod) { Fabricate(:mod) }
 
       it "is falsy" do
         expect(mod.base?).to be_falsy

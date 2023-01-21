@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 require "nauvisian"
+
+require "fabrication"
+require "faker"
 require "webmock/rspec"
 
 RSpec.configure do |config|
@@ -14,3 +17,6 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+Faker::Config.locale = :en
+I18n.load_path += Dir.glob("spec/locales/*.yml")
