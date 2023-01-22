@@ -13,19 +13,16 @@ module Nauvisian
     end
 
     def download(release, output_path)
+      @progressbar = ProgressBar.create(title: "⚙ %s" % release.file_name, format: "%t|%B|%J%%|")
       url = release.download_url.dup
       url.query = Rack::Utils.build_nested_query(@credential.to_h)
-      progressbar = ProgressBar.create(title: "⚙ %s" % release.file_name, format: "%t|%B|%J%%|")
-      data = get(url, progressbar)
+      data = get(url)
       File.binwrite(output_path, data)
       raise DigestError, "Digest mismatch" unless Digest::SHA1.file(output_path) == release.sha1
     end
 
-    private def get(url, progressbar)
-      url.open(
-        content_length_proc: ->(length_str) { progressbar.total = length_str.to_i if length_str },
-        progress_proc: ->(progress) { progressbar.progress = progress }
-      ) do |io|
+    private def get(url)
+      url.open(content_length_proc: method(:set_total), progress_proc: method(:update_progress)) do |io|
         case io.content_type
         when "application/octet-stream"
           return io.read
@@ -40,8 +37,14 @@ module Nauvisian
       else
         raise Nauvisian::Error
       end
-    rescue Nauvisian::AuthError
-      raise
+    end
+
+    private def set_total(total) # rubocop:disable Naming/AccessorMethodName
+      @progressbar.total = Integer(total, 10) if total
+    end
+
+    private def update_progress(progress)
+      @progressbar.progress = progress
     end
   end
 end
