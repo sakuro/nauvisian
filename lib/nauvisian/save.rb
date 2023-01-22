@@ -40,7 +40,7 @@ module Nauvisian
               return cmf == 0x78 ? StringIO.new(Zlib.inflate(stream.read)) : stream # level.dat0 : level-init.dat
             end
           end
-          raise Errno::ENOENT, "No initial level file"
+          raise Errno::ENOENT, "level.dat0 or level-init.dat not found"
         end
       end
 
