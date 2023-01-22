@@ -40,7 +40,7 @@ module Nauvisian
     end
 
     private def set_total(total) # rubocop:disable Naming/AccessorMethodName
-      @progressbar.total = Integer(total, 10) if total
+      @progressbar.total = total if total
     end
 
     private def update_progress(progress)
