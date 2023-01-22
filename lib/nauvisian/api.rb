@@ -12,7 +12,7 @@ module Nauvisian
   # https://wiki.factorio.com/Mod_portal_API
   class API
     MOD_PORTAL_ENDPOINT_URI = URI("https://mods.factorio.com").freeze
-    public_constant :MOD_PORTAL_ENDPOINT_URI
+    private_constant :MOD_PORTAL_ENDPOINT_URI
 
     def detail(mod)
       path = "/api/mods/#{mod.name}"

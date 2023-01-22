@@ -4,6 +4,10 @@ RSpec.describe Nauvisian::API do
   let(:api) { Nauvisian::API.new }
   let(:mod) { Fabricate(:mod) }
 
+  before do
+    Nauvisian::API.public_constant(:MOD_PORTAL_ENDPOINT_URI)
+  end
+
   describe "#detail" do
     context "when given mod does not exist" do
       before do
