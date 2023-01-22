@@ -11,7 +11,9 @@ RSpec.describe Nauvisian::Downloader do
     let(:url) { release.download_url.dup.tap {|url| url.query = Rack::Utils.build_nested_query(credential.to_h) } }
     let(:actual_download_url) {
       secure = "#{Faker::Alphanumeric.alphanumeric(number: 22)},#{Time.now.to_i + 3600}"
-      URI(Faker::Internet.url(scheme: "https", host: "dl-mod.factorio.com", path: "/download/#{Faker::Number.hexadecimal(digits: 40)}/#{release.file_name}?secure=#{secure}"))
+      random_hexadecimal = Faker::Number.hexadecimal(digits: 40)
+      path = "/download/#{random_hexadecimal}/#{release.file_name}?secure=#{secure}"
+      URI(Faker::Internet.url(scheme: "https", host: "dl-mod.factorio.com", path:))
     }
     let(:tmpdir) { Dir.mktmpdir }
     let(:output_path) { File.join(tmpdir, release.file_name) }

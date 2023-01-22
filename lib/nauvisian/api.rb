@@ -50,7 +50,7 @@ module Nauvisian
         else
           raise
         end
-      rescue => e
+      rescue
         raise Nauvisian::Error
       end
     end

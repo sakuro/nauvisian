@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "ruby-progressbar"
 require "rack/utils"
+require "ruby-progressbar"
 
 require "digest/sha1"
 require "open-uri"
