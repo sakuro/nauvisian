@@ -4,6 +4,7 @@ require_relative "nauvisian/api"
 require_relative "nauvisian/credential"
 require_relative "nauvisian/downloader"
 require_relative "nauvisian/mod"
+require_relative "nauvisian/platform"
 require_relative "nauvisian/save"
 require_relative "nauvisian/version"
 
@@ -13,4 +14,5 @@ module Nauvisian
   class AuthError < Error; end
   class DigestError < Error; end
   class TooManyRedirections < Error; end
+  class UnsupportedPlatform < Error; end
 end

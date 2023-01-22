@@ -3,6 +3,7 @@ PATH
   specs:
     nauvisian (0.1.0)
       dry-cli
+      dry-inflector
       rack
       ruby-progressbar
       rubyzip
@@ -21,6 +22,7 @@ GEM
       reline (>= 0.3.1)
     diff-lcs (1.5.0)
     dry-cli (1.0.0)
+    dry-inflector (1.0.0)
     fabrication (2.30.0)
     faker (3.1.0)
       i18n (>= 1.8.11, < 2)

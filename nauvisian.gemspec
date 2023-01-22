@@ -32,6 +32,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "dry-cli"
+  spec.add_dependency "dry-inflector"
   spec.add_dependency "ruby-progressbar"
   spec.add_dependency "rack"
   spec.add_dependency "rubyzip"
