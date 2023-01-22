@@ -8,14 +8,10 @@ RSpec.describe Nauvisian::Downloader do
     let(:release) { Fabricate(:release, mod:) }
     let(:credential) { Fabricate(:credential) }
     let(:downloader) { Nauvisian::Downloader.new(credential) }
-    let(:url) { release.download_url.dup.tap {|url| url.query = Rack::Utils.build_nested_query(credential.to_h) }.to_s }
+    let(:url) { release.download_url.dup.tap {|url| url.query = Rack::Utils.build_nested_query(credential.to_h) } }
     let(:actual_download_url) {
       secure = "#{Faker::Alphanumeric.alphanumeric(number: 22)},#{Time.now.to_i + 3600}"
-      Faker::Internet.url(
-        scheme: "https",
-        host: "dl-mod.factorio.com",
-        path: "/download/#{Faker::Number.hexadecimal(digits: 40)}/#{release.file_name}?secure=#{secure}"
-      )
+      URI(Faker::Internet.url(scheme: "https", host: "dl-mod.factorio.com", path: "/download/#{Faker::Number.hexadecimal(digits: 40)}/#{release.file_name}?secure=#{secure}"))
     }
     let(:tmpdir) { Dir.mktmpdir }
     let(:output_path) { File.join(tmpdir, release.file_name) }
@@ -26,9 +22,14 @@ RSpec.describe Nauvisian::Downloader do
 
     context "when credential is not valid" do
       before do
-        stub_request(:get, url).and_return(
-          headers: { location: "/login?next=#{CGI.escape(release.download_url.to_s)}" },
+        login_url = url + "/login?next=#{CGI.escape(release.download_url.to_s)}"
+        stub_request(:get, url.to_s).and_return(
+          headers: { location: login_url.request_uri },
           status: 302
+        )
+        stub_request(:get, login_url.to_s).and_return(
+          headers: { content_type: "text/html; charset=utf-8" },
+          status: 200
         )
       end
 
@@ -41,11 +42,11 @@ RSpec.describe Nauvisian::Downloader do
       let(:zip_data) { "" }
 
       before do
-        stub_request(:get, url).and_return(
+        stub_request(:get, url.to_s).and_return(
           status: 302,
           headers: { location: actual_download_url.to_s }
         )
-        stub_request(:get, actual_download_url).and_return(
+        stub_request(:get, actual_download_url.to_s).and_return(
           status: 200,
           headers: { "content-type": "application/octet-stream" },
           body: zip_data
@@ -73,7 +74,7 @@ RSpec.describe Nauvisian::Downloader do
 
     context "when given release of mod does not exist" do
       before do
-        stub_request(:get, url).and_return(
+        stub_request(:get, url.to_s).and_return(
           status: 404
         )
       end

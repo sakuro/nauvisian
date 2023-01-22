@@ -5,7 +5,7 @@ require_relative "mod"
 require "rack/utils"
 
 require "json"
-require "net/https"
+require "open-uri"
 
 module Nauvisian
   # Mod Portal API
@@ -38,24 +38,20 @@ module Nauvisian
     end
 
     private def get(path, **params)
-      query = Rack::Utils.build_nested_query(params)
-      req = Net::HTTP::Get.new(query.empty? ? path : path + "?" + query)
-      res = request(req)
-      case res
-      when Net::HTTPOK
-        JSON.parse(res.body, symbolize_names: true)
-      when Net::HTTPNotFound
-        raise Nauvisian::NotFound, JSON.parse(res.body, symbolize_names: true)[:message]
-      else
+      request_url = MOD_PORTAL_ENDPOINT_URI + path
+      request_url.query = Rack::Utils.build_nested_query(params)
+      begin
+        data = request_url.read
+        JSON.parse(data, symbolize_names: true)
+      rescue OpenURI::HTTPError => e
+        case e.io.status
+        in ["404", _]
+          raise Nauvisian::NotFound
+        else
+          raise
+        end
+      rescue => e
         raise Nauvisian::Error
-      end
-    end
-
-    private def request(req)
-      https = Net::HTTP.new(MOD_PORTAL_ENDPOINT_URI.host, MOD_PORTAL_ENDPOINT_URI.port)
-      https.use_ssl = true
-      https.start do
-        https.request(req)
       end
     end
   end
