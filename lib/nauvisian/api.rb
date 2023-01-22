@@ -30,7 +30,7 @@ module Nauvisian
     private def parse_releases(raw_releases, mod:)
       raw_releases.map do |raw_release|
         data = raw_release.slice(:file_name, :sha1)
-        data[:download_url] = URI("https://mods.factorio.com") + raw_release[:download_url]
+        data[:download_url] = MOD_PORTAL_ENDPOINT_URI + raw_release[:download_url]
         data[:version] = Mod::Version[raw_release[:version]]
         data[:released_at] = Time.parse(raw_release[:released_at])
         Nauvisian::Mod::Release[mod:, **data]
