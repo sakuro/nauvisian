@@ -48,7 +48,6 @@ module Nauvisian
       ].freeze
       private_constant :APPLICATON_DIRECTORIES
     end
-    private_constant :MacOS
 
     class Linux < self
       def user_data_directory
@@ -59,7 +58,6 @@ module Nauvisian
         Pathname("~/.factorio").expand_path.freeze
       end
     end
-    private_constant :Linux
 
     class Windows < self
       def user_data_directory
@@ -72,6 +70,5 @@ module Nauvisian
       ].freeze
       private_constant :APPLICATON_DIRECTORIES
     end
-    private_constant :Windows
   end
 end
