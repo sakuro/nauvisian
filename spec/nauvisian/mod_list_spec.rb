@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe Nauvisian::Mod::List do
+RSpec.describe Nauvisian::ModList do
   let(:base_mod) { Nauvisian::Mod[name: "base"] }
   let(:enabled_mod) { Nauvisian::Mod[name: "enabled-mod"] }
   let(:disabled_mod) { Nauvisian::Mod[name: "disabled-mod"] }
   let(:non_listed_mod) { Nauvisian::Mod[name: "non-listed-mod"] }
 
-  let(:list) { Nauvisian::Mod::List.load("spec/fixtures/list/list.json") }
+  let(:list) { Nauvisian::ModList.load("spec/fixtures/list/list.json") }
 
   # describe ".load"
   # describe "#save"

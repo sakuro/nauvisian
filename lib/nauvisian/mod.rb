@@ -15,6 +15,5 @@ module Nauvisian
 end
 
 require_relative "mod/detail"
-require_relative "mod/list"
 require_relative "mod/release"
 require_relative "mod/version"
