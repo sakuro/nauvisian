@@ -21,8 +21,8 @@ module Nauvisian
               save = Nauvisian::Save.load(file_path)
               formatter = FORMATTERS.fetch(options[:format].to_sym).new
               # Bring the "base" MOD first. Others are sorted case-insenstively
-              base, rest = save.mods.partition {|m, _v| m.name == "base" }
-              formatter.output(base + rest.sort_by {|m, _v| m.name.downcase })
+              base, rest = save.mods.partition {|mod, _version| mod.base? }
+              formatter.output(base + rest.sort_by {|mod, _version| mod.name.downcase })
             end
 
             module Formatter
