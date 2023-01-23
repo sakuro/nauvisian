@@ -19,4 +19,3 @@ RSpec.configure do |config|
 end
 
 Faker::Config.locale = :en
-I18n.load_path += Dir.glob("spec/locales/*.yml")

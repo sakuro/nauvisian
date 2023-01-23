@@ -61,7 +61,7 @@ RSpec.describe Nauvisian::API do
       let(:download_url) { "/download/#{mod.name}/#{Faker::Number.hexadecimal(digits: 24)}" }
       let(:version) { Faker::App.semantic_version }
       let(:file_name) { "#{mod.name}_#{version}.zip" }
-      let(:released_at) { Faker::Time.backward(format: :iso8601) }
+      let(:released_at) { Faker::Time.backward.utc.iso8601(6) }
       let(:sha1) { Faker::Number.hexadecimal(digits: 40) }
 
       before do
