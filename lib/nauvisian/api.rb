@@ -15,10 +15,10 @@ module Nauvisian
     private_constant :MOD_PORTAL_ENDPOINT_URI
 
     def detail(mod)
-      path = "/api/mods/#{mod.name}"
+      path = "/api/mods/#{mod.name}/full"
       raw_data = get(path)
-      data = raw_data.slice(:downloads_count, :name, :owner, :summary, :title, :category)
-      Nauvisian::Mod::Detail[**data]
+      data = raw_data.slice(:downloads_count, :name, :owner, :summary, :title, :category, :description)
+      Nauvisian::Mod::Detail[created_at: Time.parse(raw_data[:created_at]), **data]
     end
 
     def releases(mod)

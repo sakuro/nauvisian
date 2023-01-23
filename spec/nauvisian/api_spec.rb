@@ -11,7 +11,7 @@ RSpec.describe Nauvisian::API do
   describe "#detail" do
     context "when given mod does not exist" do
       before do
-        stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/#{mod.name}").to_return(
+        stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/#{mod.name}/full").to_return(
           body: JSON.generate(message: "Mod not found"),
           status: 404
         )
@@ -29,16 +29,18 @@ RSpec.describe Nauvisian::API do
       let(:owner) { Faker::Internet.username }
       let(:summary) { Faker::Lorem.paragraph }
       let(:title) { Faker::Lorem.sentence }
+      let(:created_at) { Faker::Time.backward.utc.iso8601(6) }
+      let(:description) { Faker::Lorem.paragraphs.join("\n") }
 
       before do
-        stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/#{mod.name}").to_return(
-          body: JSON.generate(category:, downloads_count:, name:, owner:, releases: [], summary:, title:),
+        stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/#{mod.name}/full").to_return(
+          body: JSON.generate(category:, downloads_count:, name:, owner:, releases: [], summary:, title:, created_at:, description:),
           status: 200
         )
       end
 
       it "returns Nauvisian::Mod::Detail" do
-        expect(api.detail(mod)).to eq(Nauvisian::Mod::Detail[category:, downloads_count:, name:, owner:, summary:, title:])
+        expect(api.detail(mod)).to eq(Nauvisian::Mod::Detail[category:, downloads_count:, name:, owner:, summary:, title:, created_at: Time.parse(created_at), description:])
       end
     end
   end
