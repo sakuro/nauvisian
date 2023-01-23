@@ -16,10 +16,10 @@ module Nauvisian
             argument :file, desc: "Save file of a Factorio game", required: true
             option :format, default: "plain", values: %w[csv gfm plain], desc: "Output format"
 
-              formatter = FORMATTERS.fetch(options[:format]).new
             def call(file:, **options)
               file_path = Pathname(file)
               save = Nauvisian::Save.load(file_path)
+              formatter = FORMATTERS.fetch(options[:format].to_sym).new
               # Bring the "base" MOD first. Others are sorted case-insenstively
               base, rest = save.mods.partition {|m, _v| m.name == "base" }
               formatter.output(base + rest.sort_by {|m, _v| m.name.downcase })
@@ -59,7 +59,7 @@ module Nauvisian
               plain: Formatter::Plain,
               gfm: Formatter::Gfm,
               csv: Formatter::Csv
-            }.transform_keys(&:to_s).freeze
+            }.freeze
             private_constant :FORMATTERS
           end
         end
