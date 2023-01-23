@@ -18,4 +18,13 @@ RSpec.describe Nauvisian::Mod do
       end
     end
   end
+
+  describe "#<=>" do
+    it "can be compared by case insensitive name" do
+      expect(Nauvisian::Mod[name: "BAR"] < Nauvisian::Mod[name: "foo"]).to be_truthy
+      expect(Nauvisian::Mod[name: "foo"] == Nauvisian::Mod[name: "Foo"]).to be_truthy
+      expect(Nauvisian::Mod[name: "foo"] != Nauvisian::Mod[name: "bar"]).to be_truthy
+      expect(Nauvisian::Mod[name: "foo"] > Nauvisian::Mod[name: "Bar"]).to be_truthy
+    end
+  end
 end
