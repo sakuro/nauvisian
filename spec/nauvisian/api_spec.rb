@@ -34,7 +34,9 @@ RSpec.describe Nauvisian::API do
 
       before do
         stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/#{mod.name}/full").to_return(
-          body: JSON.generate(category:, downloads_count:, name:, owner:, releases: [], summary:, title:, created_at:, description:),
+          body: JSON.generate(
+            category:, downloads_count:, name:, owner:, releases: [], summary:, title:, created_at:, description:
+          ),
           status: 200
         )
       end
