@@ -66,7 +66,7 @@ module Nauvisian
         _loaded_from_build = des.read_u16
         _allowed_commands = des.read_u8
 
-        { version:, mods: read_mods(des) }
+        {version:, mods: read_mods(des)}
       end
 
       private def read_save_version(des) = Nauvisian::Save::Version[des.read_u16, des.read_u16, des.read_u16, des.read_u16]

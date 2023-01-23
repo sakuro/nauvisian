@@ -26,11 +26,11 @@ RSpec.describe Nauvisian::Downloader do
       before do
         login_url = url + "/login?next=#{CGI.escape(release.download_url.to_s)}"
         stub_request(:get, url.to_s).and_return(
-          headers: { location: login_url.request_uri },
+          headers: {location: login_url.request_uri},
           status: 302
         )
         stub_request(:get, login_url.to_s).and_return(
-          headers: { content_type: "text/html; charset=utf-8" },
+          headers: {content_type: "text/html; charset=utf-8"},
           status: 200
         )
       end
@@ -46,11 +46,11 @@ RSpec.describe Nauvisian::Downloader do
       before do
         stub_request(:get, url.to_s).and_return(
           status: 302,
-          headers: { location: actual_download_url.to_s }
+          headers: {location: actual_download_url.to_s}
         )
         stub_request(:get, actual_download_url.to_s).and_return(
           status: 200,
-          headers: { "content-type": "application/octet-stream" },
+          headers: {"content-type": "application/octet-stream"},
           body: zip_data
         )
 
