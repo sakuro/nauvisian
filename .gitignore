@@ -9,3 +9,7 @@
 
 # rspec failure tracking
 .rspec_status
+
+# copy of mods/ and saves/
+/mods/
+/saves/
