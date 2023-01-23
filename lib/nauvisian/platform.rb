@@ -23,6 +23,10 @@ module Nauvisian
     def self.user_data_directory = platform.user_data_directory
     def self.application_directory = platform.application_directory
 
+    def self.mods_directory = user_data_directory + "mods"
+    def self.saves_directory = user_data_directory + "saves"
+    def self.script_output_directory = user_data_directory + "script-output"
+
     # Returns the directory which holds user data
     def user_data_directory
       raise NotImplementedError
