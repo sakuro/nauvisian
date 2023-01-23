@@ -13,12 +13,13 @@ module Nauvisian
         module Mod
           class List < Dry::CLI::Command
             desc "List MODs used in the given save"
-            argument :save, desc: "Save file of a Factorio game", required: true
+            argument :file, desc: "Save file of a Factorio game", required: true
             option :format, default: "plain", values: %w[csv gfm plain], desc: "Output format"
 
-            def call(save:, **options)
-              save = Nauvisian::Save.load(save)
               formatter = FORMATTERS.fetch(options[:format]).new
+            def call(file:, **options)
+              file_path = Pathname(file)
+              save = Nauvisian::Save.load(file_path)
               # Bring the "base" MOD first. Others are sorted case-insenstively
               base, rest = save.mods.partition {|m, _v| m.name == "base" }
               formatter.output(base + rest.sort_by {|m, _v| m.name.downcase })
