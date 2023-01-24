@@ -1,16 +1,3 @@
-Bundler/GemComment:
-  Enabled: false
-  OnlyFor:
-    - restrictive_version_specifiers
-    - bitbucket
-    - gist
-    - git
-    - github
-    - source
-
-Bundler/GemVersion:
-  Enabled: false
-
 Metrics/AbcSize:
   Enabled: false
 
