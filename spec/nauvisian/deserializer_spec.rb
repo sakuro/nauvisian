@@ -2,19 +2,19 @@
 
 require "stringio"
 
-RSpec.describe Nauvisian::Save::Deserializer do
-  let(:deserializer) { Nauvisian::Save::Deserializer.new(stream) }
+RSpec.describe Nauvisian::Deserializer do
+  let(:deserializer) { Nauvisian::Deserializer.new(stream) }
   let(:stream) { StringIO.new(binary_data) }
 
   describe ".new" do
     context "with object without #read" do
       it "raises ArgumentError if the argument does not respond to #read" do
-        expect { Nauvisian::Save::Deserializer.new(%w(x y z)) }.to raise_error(ArgumentError)
+        expect { Nauvisian::Deserializer.new(%w(x y z)) }.to raise_error(ArgumentError)
       end
     end
 
     it "instantiates with an input stream" do
-      expect(Nauvisian::Save::Deserializer.new(StringIO.new("\x00\x01\x00\x02"))).to be_an_instance_of(Nauvisian::Save::Deserializer)
+      expect(Nauvisian::Deserializer.new(StringIO.new("\x00\x01\x00\x02"))).to be_an_instance_of(Nauvisian::Deserializer)
     end
   end
 

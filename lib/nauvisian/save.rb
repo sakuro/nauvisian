@@ -16,7 +16,7 @@ module Nauvisian
 
     def self.load(zip_path)
       stream = stream(zip_path)
-      des = Nauvisian::Save::Deserializer.new(stream)
+      des = Nauvisian::Deserializer.new(stream)
 
       new(**populate(des))
     end
@@ -87,5 +87,5 @@ module Nauvisian
   end
 end
 
-require_relative "save/deserializer"
+require_relative "deserializer"
 require_relative "save/version"
