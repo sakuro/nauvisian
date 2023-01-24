@@ -16,7 +16,7 @@ module Nauvisian
       self[username: ENV.fetch("FACTORIO_SERVICE_USERNAME"), token: ENV.fetch("FACTORIO_SERVICE_TOKEN")]
     end
 
-    def self.from_player_data_file(player_data_file_path:)
+    def self.from_player_data_file(player_data_file_path: Nauvisian::Platform.user_data_directory + "player-data.json")
       data = JSON.load_file(player_data_file_path)
       self[username: data["service-username"], token: data["service-token"]]
     end
