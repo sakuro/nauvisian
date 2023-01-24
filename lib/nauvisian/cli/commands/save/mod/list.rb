@@ -2,6 +2,8 @@
 
 require "csv"
 
+require_relative "../../../lister"
+
 module Nauvisian
   module CLI
     module Commands

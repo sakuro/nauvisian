@@ -3,14 +3,13 @@
 require "dry/cli"
 
 require "nauvisian"
+
 require_relative "cli/commands/mod/info"
 require_relative "cli/commands/mod/installed"
 require_relative "cli/commands/mod/latest"
 require_relative "cli/commands/mod/settings/dump"
 require_relative "cli/commands/mod/versions"
 require_relative "cli/commands/save/mod/list"
-
-require_relative "cli/lister"
 
 module Nauvisian
   module CLI

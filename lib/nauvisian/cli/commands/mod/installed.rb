@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "../../lister"
+
 module Nauvisian
   module CLI
     module Commands
