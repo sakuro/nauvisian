@@ -3,6 +3,7 @@
 require "nauvisian"
 
 require_relative "cli/commands/mod/info"
+require_relative "cli/commands/mod/installed"
 require_relative "cli/commands/mod/latest"
 require_relative "cli/commands/mod/versions"
 require_relative "cli/commands/save/mod/list"
@@ -17,6 +18,7 @@ module Nauvisian
       extend Dry::CLI::Registry
 
       register "mod info", Nauvisian::CLI::Commands::Mod::Info
+      register "mod installed", Nauvisian::CLI::Commands::Mod::Installed
       register "mod latest", Nauvisian::CLI::Commands::Mod::Latest
       register "mod versions", Nauvisian::CLI::Commands::Mod::Versions
 
