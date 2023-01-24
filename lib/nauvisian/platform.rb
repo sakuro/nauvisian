@@ -1,23 +1,24 @@
 # frozen_string_literal: true
 
 require "pathname"
+require "rbconfig"
 
 require "dry/inflector"
 
 module Nauvisian
   class Platform
     def self.platform
-      @platform ||=
-        case RUBY_PLATFORM
-        when /\bdarwin\b/
-          MacOS.new
-        when /\b-linux\z/
-          Linux.new
-        when /\b(?:cygwin|mswin|mingw|bccwin|wince|emx)\b/
-          Windows.new
-        else
-          raise Unsupported, RUBY_PLATFORM
-        end
+      host_os = RbConfig::CONFIG["host_os"]
+      case host_os
+      when /\bdarwin\b/
+        MacOS.new
+      when /\blinux\z/
+        Linux.new
+      when /\b(?:cygwin|mswin|mingw|bccwin|wince|emx)\b/
+        Windows.new
+      else
+        raise Unsupported, host_os
+      end
     end
 
     def mods_directory = user_data_directory + "mods"
@@ -66,10 +67,9 @@ module Nauvisian
         (Pathname(ENV.fetch("APPDATA")).expand_path / "Factorio").freeze
       end
 
-      APPLICATON_DIRECTORIES = [
-        Pathname("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Factorio").freeze,
-        Pathname("C:\\Program Files\\Factorio").freeze
-      ].freeze
+      APPLICATON_DIRECTORIES = [].freeze
+      APPLICATON_DIRECTORIES << Pathname("#{ENV.fetch("PROGRAMFILES(x86)")}\\Steam\\steamapps\\common\\Factorio").freeze if ENV.key?("PROGRAMFILES(x86)")
+      APPLICATON_DIRECTORIES << Pathname("#{ENV.fetch("PROGRAMFILES")}\\Factorio").freeze if ENV.key?("PROGRAMFILES")
       private_constant :APPLICATON_DIRECTORIES
     end
   end
