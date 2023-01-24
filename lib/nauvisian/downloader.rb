@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require "rack/utils"
-require "ruby-progressbar"
-
 require "digest/sha1"
 require "open-uri"
+
+require "rack/utils"
+require "ruby-progressbar"
 
 module Nauvisian
   class Downloader

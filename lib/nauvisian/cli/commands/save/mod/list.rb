@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-require "nauvisian"
-require "nauvisian/cli/lister"
-
-require "dry/cli"
-
 require "csv"
 
 module Nauvisian

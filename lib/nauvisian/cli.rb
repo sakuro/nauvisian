@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-require "nauvisian"
+require "dry/cli"
 
+require "nauvisian"
 require_relative "cli/commands/mod/info"
 require_relative "cli/commands/mod/installed"
 require_relative "cli/commands/mod/latest"
@@ -10,8 +11,6 @@ require_relative "cli/commands/mod/versions"
 require_relative "cli/commands/save/mod/list"
 
 require_relative "cli/lister"
-
-require "dry/cli"
 
 module Nauvisian
   module CLI

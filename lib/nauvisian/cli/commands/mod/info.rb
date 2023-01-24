@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require "nauvisian"
-
-require "dry/cli"
-
 module Nauvisian
   module CLI
     module Commands

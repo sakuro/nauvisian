@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "dry/inflector"
-
 require "pathname"
+
+require "dry/inflector"
 
 module Nauvisian
   class Platform
@@ -20,12 +20,11 @@ module Nauvisian
         end
     end
 
-    def self.user_data_directory = platform.user_data_directory
-    def self.application_directory = platform.application_directory
+    def mods_directory = user_data_directory + "mods"
 
-    def self.mods_directory = user_data_directory + "mods"
-    def self.saves_directory = user_data_directory + "saves"
-    def self.script_output_directory = user_data_directory + "script-output"
+    def saves_directory = user_data_directory + "saves"
+
+    def script_output_directory = user_data_directory + "script-output"
 
     # Returns the directory which holds user data
     def user_data_directory

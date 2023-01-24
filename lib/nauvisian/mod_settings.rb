@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-require "nauvisian/platform"
-
 require "json"
 
 module Nauvisian
   class ModSettings
-    DEFAULT_MOD_SETTINGS_PATH = Nauvisian::Platform.mods_directory / "mod-settings.dat"
+    DEFAULT_MOD_SETTINGS_PATH = Nauvisian.platform.mods_directory / "mod-settings.dat"
     private_constant :DEFAULT_MOD_SETTINGS_PATH
 
     def self.load(from=DEFAULT_MOD_SETTINGS_PATH)

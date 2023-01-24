@@ -7,5 +7,5 @@ bundle install
 
 git submodule update --init
 
-USER_DATA_DIRECTORY=$(bundle exec ruby -rnauvisian/platform -e "puts Nauvisian::Platform.user_data_directory")
+USER_DATA_DIRECTORY=$(bundle exec ruby -rnauvisian -e "puts Nauvisian.platform.user_data_directory")
 [[ -d "$USER_DATA_DIRECTORY" ]] && tar cf - -C "$USER_DATA_DIRECTORY" mods saves | tar xf -

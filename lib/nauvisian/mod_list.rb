@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-require "nauvisian/platform"
-
 require "json"
 
 module Nauvisian
   class ModList
-    DEFAULT_MOD_LIST_PATH = Nauvisian::Platform.mods_directory / "mod-list.json"
+    DEFAULT_MOD_LIST_PATH = Nauvisian.platform.mods_directory / "mod-list.json"
     private_constant :DEFAULT_MOD_LIST_PATH
 
     include Enumerable

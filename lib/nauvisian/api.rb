@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
-require "nauvisian"
-
-require "rack/utils"
-
 require "json"
 require "open-uri"
+
+require "rack/utils"
 
 module Nauvisian
   # Mod Portal API
