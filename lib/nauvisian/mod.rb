@@ -9,7 +9,7 @@ module Nauvisian
     end
 
     def <=>(other)
-     base? && (other.base? ? 0 : -1) || name.casecmp(other.name)
+      (base? && (other.base? ? 0 : -1)) || name.casecmp(other.name)
     end
   end
 end
