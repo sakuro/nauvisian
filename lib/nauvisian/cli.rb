@@ -2,10 +2,10 @@
 
 require "nauvisian"
 
-require "nauvisian/cli/commands/mod/info"
-require "nauvisian/cli/commands/mod/latest"
-require "nauvisian/cli/commands/mod/versions"
-require "nauvisian/cli/commands/save/mod/list"
+require_relative "cli/commands/mod/info"
+require_relative "cli/commands/mod/latest"
+require_relative "cli/commands/mod/versions"
+require_relative "cli/commands/save/mod/list"
 
 require_relative "cli/lister"
 
