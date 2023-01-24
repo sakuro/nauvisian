@@ -28,8 +28,8 @@ module Nauvisian
       @properties[key]
     end
 
-    def to_json
-      @properties.to_json
+    def to_json(...)
+      JSON.generate(@properties, ...)
     end
   end
 end

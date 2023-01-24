@@ -13,9 +13,8 @@ module Nauvisian
         module Settings
           class Dump < Dry::CLI::Command
             desc "Dump MOD settings"
-#            argument :mod, desc: "Target MOD", required: true
 
-            def call( **)
+            def call(**)
               puts Nauvisian::ModSettings.load.to_json
             end
           end
