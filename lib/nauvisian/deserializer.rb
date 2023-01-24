@@ -50,7 +50,7 @@ module Nauvisian
 
     def read_version64 = Nauvisian::Version64[read_u16, read_u16, read_u16, read_u16]
 
-    def read_version24 = Nauvisian::Version24[read_optim_u32, read_optim_u32, read_optim_u32]
+    def read_version24 = Nauvisian::Version24[read_optim_u16, read_optim_u16, read_optim_u16]
 
     def read_list
       length = read_optim_u32
