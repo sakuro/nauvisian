@@ -39,11 +39,11 @@ RSpec.describe Nauvisian::Save do
         let(:zip_path) { "spec/fixtures/save/without-mods.zip" }
 
         it "has version" do
-          expect(save.version).to eq(Nauvisian::Save::Version[1, 1, 74, 1])
+          expect(save.version).to eq(Nauvisian::Version64[1, 1, 74, 1])
         end
 
         it "includes only the base MOD" do
-          expect(save.mods).to eq(Nauvisian::Mod[name: "base"] => Nauvisian::Mod::Version["1.1.74"])
+          expect(save.mods).to eq(Nauvisian::Mod[name: "base"] => Nauvisian::Version24["1.1.74"])
         end
       end
 
@@ -51,15 +51,15 @@ RSpec.describe Nauvisian::Save do
         let(:zip_path) { "spec/fixtures/save/with-some-mods.zip" }
 
         it "has version" do
-          expect(save.version).to eq(Nauvisian::Save::Version[1, 1, 74, 1])
+          expect(save.version).to eq(Nauvisian::Version64[1, 1, 74, 1])
         end
 
         it "includes base and other MODs in the save" do
           expect(save.mods.keys.map(&:name)).to contain_exactly(*%w(base AutoDeconstruct even-distribution))
           expect(save.mods).to eq(
-            Nauvisian::Mod[name: "base"] => Nauvisian::Mod::Version["1.1.74"],
-            Nauvisian::Mod[name: "AutoDeconstruct"] => Nauvisian::Mod::Version["0.3.5"],
-            Nauvisian::Mod[name: "even-distribution"] => Nauvisian::Mod::Version["1.0.10"]
+            Nauvisian::Mod[name: "base"] => Nauvisian::Version24["1.1.74"],
+            Nauvisian::Mod[name: "AutoDeconstruct"] => Nauvisian::Version24["0.3.5"],
+            Nauvisian::Mod[name: "even-distribution"] => Nauvisian::Version24["1.0.10"]
           )
         end
       end

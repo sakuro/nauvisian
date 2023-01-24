@@ -45,6 +45,13 @@ module Nauvisian
 
     def read_double = read_bytes(8).unpack1("d")
 
+    # Assumed: method arguments are evaluated from left to right but...
+    # https://stackoverflow.com/a/36212870/16014712
+
+    def read_version64 = Nauvisian::Version64[read_u16, read_u16, read_u16, read_u16]
+
+    def read_version24 = Nauvisian::Version24[read_optim_u32, read_optim_u32, read_optim_u32]
+
     def read_list
       length = read_optim_u32
       Array(length) { read_property_tree }

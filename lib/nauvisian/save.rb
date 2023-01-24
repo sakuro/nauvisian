@@ -45,8 +45,8 @@ module Nauvisian
       end
 
       private def populate(des)
-        version = read_save_version(des)
-        raise ArgumentError, "Unsupported version" if version < Nauvisian::Save::Version[1, 0, 0, 0]
+        version = des.read_version64
+        raise ArgumentError, "Unsupported version" if version < Nauvisian::Version64[1, 0, 0, 0]
 
         des.read_u8 # skip a byte
 
@@ -62,22 +62,16 @@ module Nauvisian
         _finished_but_continuing = des.read_bool
         _saving_replay = des.read_bool
         _allow_non_admin_debug_options = des.read_bool
-        _loaded_from = read_mod_version(des)
+        _loaded_from = des.read_version24
         _loaded_from_build = des.read_u16
         _allowed_commands = des.read_u8
 
         {version:, mods: read_mods(des)}
       end
 
-      private def read_save_version(des) = Nauvisian::Save::Version[des.read_u16, des.read_u16, des.read_u16, des.read_u16]
-
-      # Assumed: method arguments are evaluated from left to right but...
-      # https://stackoverflow.com/a/36212870/16014712
-      private def read_mod_version(des) = Nauvisian::Mod::Version[des.read_optim_u32, des.read_optim_u32, des.read_optim_u32]
-
       private def read_mod(des)
         mod = Nauvisian::Mod[name: des.read_str.freeze]
-        version = read_mod_version(des)
+        version = des.read_version24
         _crc = des.read_u32.freeze
         [mod, version]
       end
@@ -88,4 +82,3 @@ module Nauvisian
 end
 
 require_relative "deserializer"
-require_relative "save/version"

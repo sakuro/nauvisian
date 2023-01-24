@@ -83,7 +83,7 @@ RSpec.describe Nauvisian::API do
             file_name:,
             released_at: Time.parse(released_at),
             sha1:,
-            version: Nauvisian::Mod::Version[version]
+            version: Nauvisian::Version24[version]
           ]
         )
       end

@@ -9,6 +9,8 @@ require_relative "nauvisian/mod_list"
 require_relative "nauvisian/platform"
 require_relative "nauvisian/save"
 require_relative "nauvisian/version"
+require_relative "nauvisian/version24"
+require_relative "nauvisian/version64"
 
 module Nauvisian
   class Error < StandardError; end
