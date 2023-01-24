@@ -4,15 +4,19 @@ source "https://rubygems.org"
 
 gemspec
 
-group :development do
+group :development, :test do
   gem "debug"
-  gem "fabrication"
-  gem "faker"
   gem "rake", "~> 13.0"
-  gem "rspec", "~> 3.0"
-  gem "rubocop", "~> 1.21"
-  gem "rubocop-performance"
-  gem "rubocop-rake"
-  gem "rubocop-rspec"
-  gem "webmock"
+end
+
+group :test do
+  gem "fabrication", require: false
+  gem "faker", require: false
+  gem "rspec", "~> 3.0", require: false
+  gem "rubocop", "~> 1.21", require: false
+  gem "rubocop-performance", require: false
+  gem "rubocop-rake", require: false
+  gem "rubocop-rspec", require: false
+  gem "simplecov", require: false
+  gem "webmock", require: false
 end
