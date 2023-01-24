@@ -7,6 +7,8 @@ require "nauvisian/cli/commands/mod/latest"
 require "nauvisian/cli/commands/mod/versions"
 require "nauvisian/cli/commands/save/mod/list"
 
+require_relative "cli/lister"
+
 require "dry/cli"
 
 module Nauvisian
