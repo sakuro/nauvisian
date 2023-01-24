@@ -66,7 +66,12 @@ module Nauvisian
         _loaded_from_build = des.read_u16
         _allowed_commands = des.read_u8
 
-        {version:, mods: read_mods(des)}
+        mods = read_mods(des)
+
+        _unknown_4_bytes = des.read_bytes(4) # example: fPK\t (0x66 0x50 0x4B 0x09)
+        _startup_settings = des.read_property_tree
+
+        {version:, mods:}
       end
 
       private def read_mod(des)
