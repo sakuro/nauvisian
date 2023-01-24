@@ -41,6 +41,43 @@ module Nauvisian
       read_bytes(length).force_encoding(Encoding::UTF_8)
     end
 
+    def read_str_property = read_bool ? "" : read_str
+
+    def read_double = read_bytes(8).unpack1("d")
+
+    def read_list
+      length = read_optim_u32
+      Array(length) { read_property_tree }
+    end
+
+    def read_dictionary
+      length = read_u32
+      length.times.each_with_object({}) do |_i, dict|
+        key = read_str_property
+        dict[key] = read_property_tree
+      end
+    end
+
+    def read_property_tree
+      type = read_u8
+      _any_type_flag = read_bool
+
+      case type
+      when 1
+        read_bool
+      when 2
+        read_double
+      when 3
+        read_str_property
+      when 4
+        read_list
+      when 5
+        read_dictionary
+      else
+        raise "unknown property type: %p" % type
+      end
+    end
+
     private def read_optim(bit_size)
       raise ArgumentError, "invalid bit size" unless bit_size == 16 || bit_size == 32
 

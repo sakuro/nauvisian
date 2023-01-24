@@ -149,4 +149,80 @@ RSpec.describe Nauvisian::Deserializer do
       end
     end
   end
+
+  describe "#read_bool" do
+    context "reading 0x00" do
+      let(:binary_data) { "\x00" }
+
+      it "reads 0x00 as false" do
+        expect(deserializer.read_bool).to be(false)
+      end
+    end
+
+    context "reading non-0x00" do
+      let(:binary_data) { "\x11" }
+
+      it "reads non-0x00 as true" do
+        expect(deserializer.read_bool).to be(true)
+      end
+    end
+  end
+
+  describe "#read_str" do
+    context "when leading byte is 0xFF" do
+      # ,\x01\x00\x00 (\x2c\x01\x00\x00) is 300
+      let(:binary_data) { "\xff,\x01\x00\x00#{"x" * 300}" }
+
+      it "reads string of length designated in u32 after the leading byte" do
+        expect(deserializer.read_str).to eq("x" * 300)
+      end
+    end
+
+    context "when leading byte is not 0xFF" do
+      let(:binary_data) { "\x0chello, world" }
+
+      it "reads string of length designated by the leading byte itself" do
+        expect(deserializer.read_str).to eq("hello, world")
+      end
+    end
+  end
+
+  describe "#read_str_property" do
+    context "when no string flag is set" do
+      let(:binary_data) { "\x01" }
+
+      it "reads an empty string" do
+        expect(deserializer.read_str_property).to eq("")
+      end
+    end
+
+    context "when no string flag is unset" do
+      let(:binary_data) { "\x00\x03abc" }
+
+      it "reads string" do
+        expect(deserializer.read_str_property).to eq("abc")
+      end
+    end
+  end
+
+  describe "#read_double" do
+    let(:binary_data) { "\x00\x00\x00\x00\xe0\xff\xff\x3f" }
+
+    it "returns byte read" do
+      # 1.999969482421875 is precisely represented in IEEE754 without error
+      expect(deserializer.read_double).to be_within(0).of(1.999969482421875)
+    end
+
+    context "with not enough bytes left" do
+      let(:binary_data) { "\x00\x00\x00\x00\xe0\xff\xff" }
+
+      it "raises EOFerror" do
+        expect { deserializer.read_double }.to raise_error(EOFError)
+      end
+    end
+  end
+
+  xdescribe "#read_list"
+  xdescribe "#read_dictionary"
+  xdescribe "#read_property_tree"
 end
