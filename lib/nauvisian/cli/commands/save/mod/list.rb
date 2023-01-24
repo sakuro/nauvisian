@@ -20,9 +20,7 @@ module Nauvisian
             def call(file:, **options)
               file_path = Pathname(file)
               save = Nauvisian::Save.load(file_path)
-              # Bring the "base" MOD first. Others are sorted case-insenstively
-              base, rest = save.mods.partition {|mod, _version| mod.base? }
-              mods = base + rest.sort_by {|mod, _version| mod.name.downcase }
+              mods = save.mods.sort
               rows = mods.map {|mod, version| {"Name" => mod.name, "Version" => version} }
 
               lister = Nauvisian::CLI::Lister.for(options[:format].to_sym).new(%w(Name Version))
