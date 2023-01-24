@@ -37,8 +37,7 @@ module Nauvisian
     end
 
     def name
-      inflector = Dry::Inflector.new
-      inflector.demodulize(self.class.name).downcase.freeze
+      Nauvisian.inflector.demodulize(self.class.name).downcase.freeze
     end
 
     class MacOS < self
