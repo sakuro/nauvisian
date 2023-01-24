@@ -9,7 +9,7 @@ module Nauvisian
     DEFAULT_MOD_SETTINGS_PATH = Nauvisian::Platform.mods_directory / "mod-settings.dat"
     private_constant :DEFAULT_MOD_SETTINGS_PATH
 
-    def self.load(from=DEFAULT_MOD_LIST_PATH)
+    def self.load(from=DEFAULT_MOD_SETTINGS_PATH)
       File.open(from, "rb") do |stream|
         des = Nauvisian::Deserializer.new(stream)
         version = des.read_version64
@@ -26,6 +26,10 @@ module Nauvisian
 
     def [](key)
       @properties[key]
+    end
+
+    def to_json
+      @properties.to_json
     end
   end
 end
