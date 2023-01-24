@@ -1,5 +1,6 @@
 inherit_from:
   - .rubocop/bundler.yml
+  - .rubocop/gemspec.yml
   - .rubocop/layout.yml
   - .rubocop/lint.yml
   - .rubocop/metrics.yml
@@ -23,4 +24,3 @@ AllCops:
     - vendor/**/*
     - spec/spec_helper.rb
     - spec/support/rspec.rb
-    - "*.gemspec"
