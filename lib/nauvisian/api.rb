@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "mod"
+require "nauvisian"
 
 require "rack/utils"
 
