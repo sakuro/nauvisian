@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "nauvisian"
+require "nauvisian/cli/lister"
 
 require "dry/cli"
 
@@ -14,12 +15,12 @@ module Nauvisian
           class List < Dry::CLI::Command
             desc "List MODs used in the given save"
             argument :file, desc: "Save file of a Factorio game", required: true
-            option :format, default: "plain", values: %w[csv gfm json plain], desc: "Output format"
+            option :format, default: "plain", values: Nauvisian::CLI::Lister.all, desc: "Output format"
 
             def call(file:, **options)
               file_path = Pathname(file)
               save = Nauvisian::Save.load(file_path)
-              lister = Lister.for(options[:format].to_sym).new(%w(Name Version))
+              lister = Nauvisian::CLI::Lister.for(options[:format].to_sym).new(%w(Name Version))
               # Bring the "base" MOD first. Others are sorted case-insenstively
               base, rest = save.mods.partition {|mod, _version| mod.base? }
               mods = base + rest.sort_by {|mod, _version| mod.name.downcase }

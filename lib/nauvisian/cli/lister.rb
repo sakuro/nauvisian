@@ -11,6 +11,10 @@ module Nauvisian
         @listers.fetch(format)
       end
 
+      def self.all
+        @listers.keys.sort
+      end
+
       def self.inherited(subclass)
         demodulized = Nauvisian.inflector.demodulize(subclass.name)
         underscored = Nauvisian.inflector.underscore(demodulized)
