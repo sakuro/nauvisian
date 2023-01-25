@@ -28,8 +28,19 @@ module Nauvisian
     def read_u16 = read_bytes(2).unpack1("v")
     def read_u32 = read_bytes(4).unpack1("V")
 
-    def read_optim_u16 = read_optim(16)
-    def read_optim_u32 = read_optim(32)
+    def read_optim_u16
+      byte = read_u8
+      return byte unless byte == 0xFF
+
+      read_u16
+    end
+
+    def read_optim_u32
+      byte = read_u8
+      return byte unless byte == 0xFF
+
+      read_u32
+    end
 
     def read_u16_tuple(length) = Array.new(length) { read_u16 }
     def read_optim_tuple(bit_size, length) = Array.new(length) { read_optim(bit_size) }
@@ -82,22 +93,6 @@ module Nauvisian
         read_dictionary
       else
         raise "unknown property type: %p" % type
-      end
-    end
-
-    private def read_optim(bit_size)
-      raise ArgumentError, "invalid bit size" unless bit_size == 16 || bit_size == 32
-
-      byte = read_u8
-      return byte unless byte == 0xFF
-
-      case bit_size
-      when 16
-        read_u16
-      when 32
-        read_u32
-      else
-        raise ArgumentError, "Wrong bit_size (must be 16 or 32)"
       end
     end
   end
