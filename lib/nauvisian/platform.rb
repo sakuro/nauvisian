@@ -10,14 +10,14 @@ module Nauvisian
     def self.platform
       host_os = RbConfig::CONFIG["host_os"]
       case host_os
-      when /\bdarwin\b/
+      when /\bdarwin\d*\b/
         MacOS.new
       when /\blinux\z/
         Linux.new
       when /\b(?:cygwin|mswin|mingw|bccwin|wince|emx)\b/
         Windows.new
       else
-        raise Unsupported, host_os
+        raise UnsupportedPlatform, host_os
       end
     end
 
