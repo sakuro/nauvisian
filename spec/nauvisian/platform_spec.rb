@@ -35,5 +35,15 @@ RSpec.describe Nauvisian::Platform do
         expect(Nauvisian::Platform.platform).to be_an_instance_of(Nauvisian::Platform::Windows)
       end
     end
+
+    context "when on unsupported OS" do
+      before do
+        allow(RbConfig::CONFIG).to receive(:[]).with("host_os").and_return("unknown")
+      end
+
+      it "raises UnsupportedPlatform" do
+        expect { Nauvisian::Platform.platform }.to raise_error(Nauvisian::UnsupportedPlatform)
+      end
+    end
   end
 end
