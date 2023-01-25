@@ -3,8 +3,6 @@
 require "pathname"
 require "rbconfig"
 
-require "dry/inflector"
-
 module Nauvisian
   class Platform
     def self.platform
@@ -34,10 +32,6 @@ module Nauvisian
 
     def application_directory
       APPLICATON_DIRECTORIES.find(&:directory?)
-    end
-
-    def name
-      Nauvisian.inflector.demodulize(self.class.name).downcase.freeze
     end
 
     class MacOS < self
