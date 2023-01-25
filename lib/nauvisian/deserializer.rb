@@ -28,18 +28,16 @@ module Nauvisian
     def read_u16 = read_bytes(2).unpack1("v")
     def read_u32 = read_bytes(4).unpack1("V")
 
+    # https://wiki.factorio.com/Data_types#Space_Optimized
     def read_optim_u16
       byte = read_u8
-      return byte unless byte == 0xFF
-
-      read_u16
+      byte == 0xFF ? read_u16 : byte
     end
 
+    # https://wiki.factorio.com/Data_types#Space_Optimized
     def read_optim_u32
       byte = read_u8
-      return byte unless byte == 0xFF
-
-      read_u32
+      byte == 0xFF ? read_u32 : byte
     end
 
     def read_u16_tuple(length) = Array.new(length) { read_u16 }
@@ -52,8 +50,10 @@ module Nauvisian
       read_bytes(length).force_encoding(Encoding::UTF_8)
     end
 
+    # https://wiki.factorio.com/Property_tree#String
     def read_str_property = read_bool ? "" : read_str
 
+    # https://wiki.factorio.com/Property_tree#Number
     def read_double = read_bytes(8).unpack1("d")
 
     # Assumed: method arguments are evaluated from left to right but...
@@ -63,11 +63,13 @@ module Nauvisian
 
     def read_version24 = Nauvisian::Version24[read_optim_u16, read_optim_u16, read_optim_u16]
 
+    # https://wiki.factorio.com/Property_tree#List
     def read_list
       length = read_optim_u32
       Array(length) { read_property_tree }
     end
 
+    # https://wiki.factorio.com/Property_tree#Dictionary
     def read_dictionary
       length = read_u32
       length.times.each_with_object({}) do |_i, dict|
