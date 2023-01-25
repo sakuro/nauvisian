@@ -19,6 +19,10 @@ require:
 AllCops:
   EnabledByDefault: true
   TargetRubyVersion: 3.2
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  ExtraDetails: true
+  UseCache: true
   Exclude:
     - bin/**/*
     - vendor/**/*
