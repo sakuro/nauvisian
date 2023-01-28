@@ -22,6 +22,15 @@ module Nauvisian
       @properties = properties
     end
 
+    def save(to)
+      File.open(to, "wb") do |stream|
+        ser = Nauvisian::Serializer.new(stream)
+        ser.write_version64(@version)
+        ser.write_bool(false)
+        ser.write_property_tree(@properties)
+      end
+    end
+
     def [](key)
       @properties[key]
     end
