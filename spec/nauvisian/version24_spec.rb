@@ -45,6 +45,12 @@ RSpec.describe Nauvisian::Version24 do
     end
   end
 
+  describe "#to_a" do
+    it "returns internal triplet as an array" do
+      expect(Nauvisian::Version24[1, 2, 3].to_a).to eq([1, 2, 3])
+    end
+  end
+
   describe "#<=>" do
     it "can be compared" do
       expect(Nauvisian::Version24[1, 2, 3] > Nauvisian::Version24[1, 2, 0]).to be(true)

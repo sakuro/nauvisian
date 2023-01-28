@@ -27,6 +27,7 @@ module Nauvisian
     protected attr_reader :version
 
     def to_s = "%d.%d.%d-%d" % @version
+    def to_a = @version.dup.freeze
     def <=>(other) = @version <=> other.version
   end
 end

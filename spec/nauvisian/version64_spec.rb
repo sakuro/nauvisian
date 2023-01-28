@@ -50,6 +50,12 @@ RSpec.describe Nauvisian::Version64 do
     end
   end
 
+  describe "#to_a" do
+    it "returns internal quartet as an array" do
+      expect(Nauvisian::Version64[1, 2, 3, 4].to_a).to eq([1, 2, 3, 4])
+    end
+  end
+
   describe "#<=>" do
     it "can be compared" do
       expect(Nauvisian::Version64[1, 2, 3, 4] > Nauvisian::Version64[1, 2, 3, 0]).to be(true)
