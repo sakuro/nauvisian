@@ -44,8 +44,8 @@ RSpec.describe Nauvisian::Deserializer do
     end
 
     context "with nil length" do
-      it "returns bytes read until EOF" do
-        expect(deserializer.read_bytes(nil)).to eq("\x00\x01\x02\x03\x04\x05\x06\x07")
+      it "returns ArgumentError" do
+        expect { deserializer.read_bytes(nil) }.to raise_error(ArgumentError)
       end
     end
   end
@@ -57,7 +57,15 @@ RSpec.describe Nauvisian::Deserializer do
       expect(deserializer.read_u8).to eq(0xAA)
     end
 
-    context "with not enough bytes left" do
+    context "with not enough bytes left" do # rubocop:disable RSpec/RepeatedExampleGroupBody
+      let(:binary_data) { "" }
+
+      it "raises EOFerror" do
+        expect { deserializer.read_u8 }.to raise_error(EOFError)
+      end
+    end
+
+    context "at EOF" do # rubocop:disable RSpec/RepeatedExampleGroupBody
       let(:binary_data) { "" }
 
       it "raises EOFerror" do
@@ -80,6 +88,14 @@ RSpec.describe Nauvisian::Deserializer do
         expect { deserializer.read_u16 }.to raise_error(EOFError)
       end
     end
+
+    context "at EOF" do
+      let(:binary_data) { "" }
+
+      it "raises EOFerror" do
+        expect { deserializer.read_u16 }.to raise_error(EOFError)
+      end
+    end
   end
 
   describe "#read_u32" do
@@ -91,6 +107,14 @@ RSpec.describe Nauvisian::Deserializer do
 
     context "with not enough bytes left" do
       let(:binary_data) { "\xaa\xbb\xcc" }
+
+      it "raises EOFerror" do
+        expect { deserializer.read_u32 }.to raise_error(EOFError)
+      end
+    end
+
+    context "at EOF" do
+      let(:binary_data) { "" }
 
       it "raises EOFerror" do
         expect { deserializer.read_u32 }.to raise_error(EOFError)

@@ -9,19 +9,14 @@ module Nauvisian
     end
 
     def read_bytes(length)
-      case length
-      in Integer if length.negative?
-        raise ArgumentError, "Negative length"
-      in 0
-        return +""
-      in nil
-        @stream.read(length)
-      else
-        bytes = @stream.read(length)
-        raise EOFError if @stream.eof? && (bytes.nil? || (bytes.length < length))
+      raise ArgumentError, "nil length" if length.nil?
+      raise ArgumentError, "negative length" if length.negative?
+      return +"" if length.zero?
 
-        bytes
-      end
+      bytes = @stream.read(length)
+      raise EOFError if bytes.nil? || bytes.size < length
+
+      bytes
     end
 
     def read_u8 = read_bytes(1).unpack1("C")
