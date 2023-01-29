@@ -7,6 +7,15 @@ module Nauvisian
     DEFAULT_MOD_LIST_PATH = Nauvisian.platform.mods_directory / "mod-list.json"
     private_constant :DEFAULT_MOD_LIST_PATH
 
+    class NotListedError < Nauvisian::Error
+      def initialize(mod)
+        super("not listed: #{mod.name}")
+        @mod = mod
+      end
+
+      attr_reader :mod
+    end
+
     include Enumerable
 
     def self.load(from=DEFAULT_MOD_LIST_PATH)
@@ -50,20 +59,20 @@ module Nauvisian
     def exist?(mod) = @mods.key?(mod)
 
     def enabled?(mod)
-      raise KeyError, mod unless exist?(mod)
+      raise NotListedError, mod unless exist?(mod)
 
       @mods[mod]
     end
 
     def enable(mod)
-      raise KeyError, mod unless exist?(mod)
+      raise NotListedError, mod unless exist?(mod)
 
       @mods[mod] = true
     end
 
     def disable(mod)
       raise ArgumentError, mod if mod.base?
-      raise KeyError, mod unless exist?(mod)
+      raise NotListedError, mod unless exist?(mod)
 
       @mods[mod] = false
     end

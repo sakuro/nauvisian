@@ -119,8 +119,8 @@ RSpec.describe Nauvisian::ModList do
       expect { list.enable(enabled_mod) }.not_to change { list.enabled?(enabled_mod) }.from(true)
     end
 
-    it "raises KeyError on enabling non-listed MOD" do
-      expect { list.enable(non_listed_mod) }.to raise_error(KeyError)
+    it "raises Nauvisian::ModList::NotListedError on enabling non-listed MOD" do
+      expect { list.enable(non_listed_mod) }.to raise_error(Nauvisian::ModList::NotListedError)
     end
   end
 
@@ -133,8 +133,8 @@ RSpec.describe Nauvisian::ModList do
       expect { list.disable(disabled_mod) }.not_to change { list.enabled?(disabled_mod) }.from(false)
     end
 
-    it "raises KeyError on disabling non-listed MOD" do
-      expect { list.disable(non_listed_mod) }.to raise_error(KeyError)
+    it "raises Nauvisian::ModList::NotListedError on disabling non-listed MOD" do
+      expect { list.disable(non_listed_mod) }.to raise_error(Nauvisian::ModList::NotListedError)
     end
 
     it "raises ArgumentError on disabling base MOD" do
@@ -151,8 +151,8 @@ RSpec.describe Nauvisian::ModList do
       expect(list).not_to be_enabled(disabled_mod)
     end
 
-    it "raises KeyError for non-listed MOD" do
-      expect { list.enabled?(non_listed_mod) }.to raise_error(KeyError)
+    it "raises Nauvisian::ModList::NotListedError for non-listed MOD" do
+      expect { list.enabled?(non_listed_mod) }.to raise_error(Nauvisian::ModList::NotListedError)
     end
   end
 end
