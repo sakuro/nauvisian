@@ -22,7 +22,7 @@ module Nauvisian
       @properties = properties
     end
 
-    def save(to)
+    def save(to=DEFAULT_MOD_SETTINGS_PATH)
       File.open(to, "wb") do |stream|
         ser = Nauvisian::Serializer.new(stream)
         ser.write_version64(@version)
