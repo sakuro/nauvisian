@@ -34,9 +34,5 @@ module Nauvisian
     def [](key)
       @properties[key]
     end
-
-    def to_json(...)
-      JSON.generate(@properties, ...)
-    end
   end
 end
