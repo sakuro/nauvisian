@@ -7,7 +7,7 @@ RSpec.describe Nauvisian::Downloader do
     let(:mod) { Fabricate(:mod) }
     let(:release) { Fabricate(:release, mod:) }
     let(:credential) { Fabricate(:credential) }
-    let(:downloader) { Nauvisian::Downloader.new(credential) }
+    let(:downloader) { Nauvisian::Downloader.new(credential:) }
     let(:url) { release.download_url.dup.tap {|url| url.query = Rack::Utils.build_nested_query(credential.to_h) } }
     let(:actual_download_url) {
       secure = "#{Faker::Alphanumeric.alphanumeric(number: 22)},#{Time.now.to_i + 3600}"

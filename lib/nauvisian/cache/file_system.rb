@@ -8,8 +8,7 @@ module Nauvisian
     class FileSystem
       def initialize(root:, ttl: 10 * 60)
         raise TypeError unless root.is_a?(Pathname)
-        raise ArgumentError unless root.exist?
-        raise ArgumentError unless root.directory?
+        raise ArgumentError if root.exist? && !root.directory?
 
         @root = root
         @ttl = ttl
