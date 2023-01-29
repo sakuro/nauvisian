@@ -34,5 +34,9 @@ module Nauvisian
     def [](key)
       @properties[key]
     end
+
+    def []=(key, properties)
+      @properties[key] = properties
+    end
   end
 end
