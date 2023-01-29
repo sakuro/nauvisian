@@ -9,7 +9,16 @@ RSpec.describe Nauvisian::ModList do
   let(:list) { Nauvisian::ModList.load("spec/fixtures/list/list.json") }
 
   # describe ".load"
-  # describe "#save"
+
+  describe "#save" do
+    it "saves current mod list" do
+      Tempfile.open(%w[mod-list- .json]) do |file|
+        list.save(file.path)
+        expect(JSON.load_file(file.path)).to eq(JSON.load_file("spec/fixtures/list/list.json"))
+      end
+    end
+  end
+
   # def each
 
   describe "#add" do

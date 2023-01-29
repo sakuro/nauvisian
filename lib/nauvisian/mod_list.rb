@@ -24,7 +24,7 @@ module Nauvisian
     end
 
     def save(to=DEFAULT_MOD_LIST_PATH)
-      to.write(JSON.pretty_generate({mods: @mods.map {|mod, enabled| {name: mod.name, enabled:} }}))
+      File.write(to, JSON.pretty_generate({mods: @mods.map {|mod, enabled| {name: mod.name, enabled:} }}))
     end
 
     def each
