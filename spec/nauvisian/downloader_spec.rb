@@ -85,5 +85,17 @@ RSpec.describe Nauvisian::Downloader do
         expect { downloader.download(release, output_path) }.to raise_error(Nauvisian::NotFound)
       end
     end
+
+    context "when non-404 HTTP error occurs" do
+      before do
+        stub_request(:get, url.to_s).and_return(
+          status: 503
+        )
+      end
+
+      it "raises Nauvisian::NotFound" do
+        expect { downloader.download(release, output_path) }.to raise_error(Nauvisian::Error)
+      end
+    end
   end
 end
