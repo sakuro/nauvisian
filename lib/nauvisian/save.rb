@@ -5,7 +5,7 @@ require "zlib"
 require "zip"
 
 module Nauvisian
-  Save = Data.define(:version, :mods)
+  Save = Data.define(:version, :mods, :startup_settings)
 
   class Save
     LEVEL_FILE_NAMES = %w(level.dat0 level-init.dat).freeze
@@ -69,9 +69,9 @@ module Nauvisian
         mods = read_mods(des)
 
         _unknown_4_bytes = des.read_bytes(4) # example: fPK\t (0x66 0x50 0x4B 0x09)
-        _startup_settings = des.read_property_tree
+        startup_settings = des.read_property_tree
 
-        {version:, mods:}
+        {version:, mods:, startup_settings:}
       end
 
       private def read_mod(des)
