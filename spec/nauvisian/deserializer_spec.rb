@@ -247,6 +247,97 @@ RSpec.describe Nauvisian::Deserializer do
   end
 
   xdescribe "#read_list"
-  xdescribe "#read_dictionary"
-  xdescribe "#read_property_tree"
+
+  describe "#read_dictionary" do
+    let(:binary_data) { "\x01\x00\x00\x00\x00\x05value\x02\x00\x00\x00\x00\x00\x00\x00\xE0\x3F" }
+
+    it "reads dictionary" do
+      expect(deserializer.read_dictionary).to eq("value" => 0.5)
+    end
+
+    context "with not enough bytes left" do
+      let(:binary_data) { "\x01\x00\x00\x00\x00\x05value\x02\x00\x00\x00\x00\x00\x00\x00\xE0" }
+
+      it "raises EOFerror" do
+        expect { deserializer.read_dictionary }.to raise_error(EOFError)
+      end
+    end
+  end
+
+  describe "#read_property_tree" do
+    let(:binary_data) { "#{type_byte}\x00..." }
+
+    context "when reading bool" do
+      let(:type_byte) { "\x01" }
+
+      before do
+        allow(deserializer).to receive(:read_bool).and_return(false)
+      end
+
+      it "calls read_bool" do
+        deserializer.read_property_tree
+        expect(deserializer).to have_received(:read_bool).twice
+      end
+    end
+
+    context "when reading number" do
+      let(:type_byte) { "\x02" }
+
+      before do
+        allow(deserializer).to receive(:read_double).and_return(0.5)
+      end
+
+      it "calls read_double" do
+        deserializer.read_property_tree
+        expect(deserializer).to have_received(:read_double)
+      end
+    end
+
+    context "when reading string" do
+      let(:type_byte) { "\x03" }
+
+      before do
+        allow(deserializer).to receive(:read_str_property).and_return("value")
+      end
+
+      it "calls read_str_property" do
+        deserializer.read_property_tree
+        expect(deserializer).to have_received(:read_str_property)
+      end
+    end
+
+    context "when reading list" do
+      let(:type_byte) { "\x04" }
+
+      before do
+        allow(deserializer).to receive(:read_list).and_return([1.0, 2.0])
+      end
+
+      it "calls read_list" do
+        deserializer.read_property_tree
+        expect(deserializer).to have_received(:read_list).once
+      end
+    end
+
+    context "when reading dictionary" do
+      let(:type_byte) { "\x05" }
+
+      before do
+        allow(deserializer).to receive(:read_dictionary).and_return("value" => 0.5)
+      end
+
+      it "calls read_dictionary" do
+        deserializer.read_property_tree
+        expect(deserializer).to have_received(:read_dictionary).once
+      end
+    end
+
+    context "when reading unknown type" do
+      let(:type_byte) { "\x06" }
+
+      it "raises error" do
+        expect { deserializer.read_property_tree }.to raise_error(Nauvisian::UnknownPropertyType)
+      end
+    end
+  end
 end

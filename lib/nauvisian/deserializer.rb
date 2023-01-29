@@ -89,7 +89,7 @@ module Nauvisian
       when 5
         read_dictionary
       else
-        raise "unknown property type: %p" % type
+        raise UnknownPropertyType, type
       end
     end
   end

@@ -129,6 +129,93 @@ RSpec.describe Nauvisian::Serializer do
   end
 
   xdescribe "#write_list"
-  xdescribe "#write_dictionary"
-  xdescribe "#write_property_tree"
+
+  describe "#write_dictionary" do
+    it "writes dictionary" do
+      expect { serializer.write_dictionary("value" => 0.5) }.to change(stream, :string).from("".b).to("\x01\x00\x00\x00\x00\x05value\x02\x00\x00\x00\x00\x00\x00\x00\xE0\x3F".b)
+    end
+  end
+
+  describe "#write_property_tree" do
+    before do
+      allow(serializer).to receive(:write_u8)
+      allow(serializer).to receive(:write_bool).with(false)
+    end
+
+    context "when writing bool" do
+      before do
+        allow(serializer).to receive(:write_bool).with(true)
+      end
+
+      it "calls write_bool" do
+        serializer.write_property_tree(true)
+
+        expect(serializer).to have_received(:write_u8).with(1).ordered
+        expect(serializer).to have_received(:write_bool).with(false).ordered
+        expect(serializer).to have_received(:write_bool).with(true).ordered
+      end
+    end
+
+    context "when writing number" do
+      before do
+        allow(serializer).to receive(:write_double)
+      end
+
+      it "calls write_double" do
+        serializer.write_property_tree(0.5)
+
+        expect(serializer).to have_received(:write_u8).with(2).ordered
+        expect(serializer).to have_received(:write_bool).with(false).ordered
+        expect(serializer).to have_received(:write_double).with(0.5).ordered
+      end
+    end
+
+    context "when writing string" do
+      before do
+        allow(serializer).to receive(:write_str_property)
+      end
+
+      it "calls write_str_property" do
+        serializer.write_property_tree("value")
+
+        expect(serializer).to have_received(:write_u8).with(3).ordered
+        expect(serializer).to have_received(:write_bool).with(false).ordered
+        expect(serializer).to have_received(:write_str_property).with("value").ordered
+      end
+    end
+
+    context "when writing list" do
+      before do
+        allow(serializer).to receive(:write_list)
+      end
+
+      it "calls write_list" do
+        serializer.write_property_tree([1.0, 2.0])
+
+        expect(serializer).to have_received(:write_u8).with(4).ordered
+        expect(serializer).to have_received(:write_bool).with(false).ordered
+        expect(serializer).to have_received(:write_list).with([1.0, 2.0]).ordered
+      end
+    end
+
+    context "when writing dictionary" do
+      before do
+        allow(serializer).to receive(:write_dictionary)
+      end
+
+      it "calls write_dictionary" do
+        serializer.write_property_tree("value" => 0.5)
+
+        expect(serializer).to have_received(:write_u8).with(5).ordered
+        expect(serializer).to have_received(:write_bool).with(false).ordered
+        expect(serializer).to have_received(:write_dictionary).with("value" => 0.5).ordered
+      end
+    end
+
+    context "when writing unknown object type" do
+      it "raises UnknownPropertyType" do
+        expect { serializer.write_property_tree(Object.new) }.to raise_error(Nauvisian::UnknownPropertyType)
+      end
+    end
+  end
 end

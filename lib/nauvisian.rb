@@ -21,6 +21,7 @@ module Nauvisian
   class DigestError < Error; end
   class TooManyRedirections < Error; end
   class UnsupportedPlatform < Error; end
+  class UnknownPropertyType < Error; end
 
   def self.inflector
     @inflector ||= Dry::Inflector.new
