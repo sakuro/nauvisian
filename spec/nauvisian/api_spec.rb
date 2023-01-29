@@ -45,6 +45,18 @@ RSpec.describe Nauvisian::API do
         expect(api.detail(mod)).to eq(Nauvisian::Mod::Detail[category:, downloads_count:, name:, owner:, summary:, title:, created_at: Time.parse(created_at), description:])
       end
     end
+
+    context "when non-404 HTTP error occurs" do
+      before do
+        stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/#{mod.name}/full").to_return(
+          status: 503
+        )
+      end
+
+      it "raises Nauvisian::Error" do
+        expect { api.detail(mod) }.to raise_error(Nauvisian::Error)
+      end
+    end
   end
 
   describe "#releases" do
@@ -86,6 +98,24 @@ RSpec.describe Nauvisian::API do
             version: Nauvisian::Version24[version]
           ]
         )
+      end
+    end
+
+    context "when non-404 HTTP error occurs" do
+      before do
+        stub_request(:get, Nauvisian::API::MOD_PORTAL_ENDPOINT_URI + "/api/mods/#{mod.name}").to_return(
+          status: 503
+        )
+      end
+
+      it "raises Nauvisian::Error" do
+        expect { api.releases(mod) }.to raise_error(Nauvisian::Error)
+      end
+
+      it "has OpenURI::HTTPError as its cause" do
+        api.releases(mod)
+      rescue Nauvisian::Error => e
+        expect(e.cause).to be_an_instance_of(OpenURI::HTTPError)
       end
     end
   end

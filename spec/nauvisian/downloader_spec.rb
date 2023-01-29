@@ -93,8 +93,14 @@ RSpec.describe Nauvisian::Downloader do
         )
       end
 
-      it "raises Nauvisian::NotFound" do
+      it "raises Nauvisian::Error" do
         expect { downloader.download(release, output_path) }.to raise_error(Nauvisian::Error)
+      end
+
+      it "has OpenURI::HTTPError as its cause" do
+        downloader.download(release, output_path)
+      rescue Nauvisian::Error => e
+        expect(e.cause).to be_an_instance_of(OpenURI::HTTPError)
       end
     end
   end

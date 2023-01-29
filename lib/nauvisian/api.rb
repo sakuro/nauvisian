@@ -46,7 +46,7 @@ module Nauvisian
         in ["404", _]
           raise Nauvisian::NotFound
         else
-          raise
+          raise Nauvisian::Error
         end
       rescue
         raise Nauvisian::Error
