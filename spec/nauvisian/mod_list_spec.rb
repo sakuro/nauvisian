@@ -8,7 +8,13 @@ RSpec.describe Nauvisian::ModList do
 
   let(:list) { Nauvisian::ModList.load("spec/fixtures/list/list.json") }
 
-  # describe ".load"
+  describe ".load" do
+    it "loads mod list from given file" do
+      expect(list).to be_enabled(base_mod)
+      expect(list).to be_enabled(enabled_mod)
+      expect(list).not_to be_enabled(disabled_mod)
+    end
+  end
 
   describe "#save" do
     it "saves current mod list" do
@@ -19,7 +25,29 @@ RSpec.describe Nauvisian::ModList do
     end
   end
 
-  # def each
+  describe "#each" do
+    context "with block" do
+      it "iterates through all mod-version pair" do
+        expect {|block| list.each(&block) }.to yield_successive_args(
+          [base_mod, true],
+          [enabled_mod, true],
+          [disabled_mod, false]
+        )
+      end
+    end
+
+    context "without block" do
+      let(:enumerator) { list.each }
+
+      it "returns an Enumerator which iterates through all mod-version pair" do
+        expect {|block| enumerator.each(&block) }.to yield_successive_args(
+          [base_mod, true],
+          [enabled_mod, true],
+          [disabled_mod, false]
+        )
+      end
+    end
+  end
 
   describe "#add" do
     it "adds non-listed MOD" do
