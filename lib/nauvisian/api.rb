@@ -12,15 +12,6 @@ module Nauvisian
     MOD_PORTAL_ENDPOINT_URI = URI("https://mods.factorio.com").freeze
     private_constant :MOD_PORTAL_ENDPOINT_URI
 
-    DEFAULT_CACHE_ROOT_PATH = (Pathname(ENV.fetch("XDG_CACHE_HOME", "~/.cache")).expand_path + "nvsn/api").freeze
-    private_constant :DEFAULT_CACHE_ROOT_PATH
-
-    def initialize(cache: Nauvisian::Cache::FileSystem.new(root: DEFAULT_CACHE_ROOT_PATH))
-      @cache = cache
-    end
-
-    private attr_reader :cache
-
     def detail(mod)
       path = "/api/mods/#{mod.name}/full"
       raw_data = get(path)
@@ -48,7 +39,7 @@ module Nauvisian
       request_url = MOD_PORTAL_ENDPOINT_URI + path
       request_url.query = Rack::Utils.build_nested_query(params)
       begin
-        data = cache.key?(request_url) ? cache[request_url] : request_url.read.tap {|content| cache[request_url] = content }
+        data = request_url.read
         JSON.parse(data, symbolize_names: true)
       rescue OpenURI::HTTPError => e
         case e.io.status

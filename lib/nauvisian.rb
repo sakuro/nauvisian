@@ -3,7 +3,6 @@
 require "dry/inflector"
 
 require_relative "nauvisian/api"
-require_relative "nauvisian/cache"
 require_relative "nauvisian/credential"
 require_relative "nauvisian/deserializer"
 require_relative "nauvisian/downloader"
