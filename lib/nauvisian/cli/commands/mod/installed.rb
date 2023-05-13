@@ -12,7 +12,7 @@ module Nauvisian
 
           def call(*, **options)
             mods = Nauvisian::ModList.load.sort
-            rows = mods.map {|mod, version| {"Name" => mod.name, "Enabled" => version} }
+            rows = mods.map {|mod, enabled| {"Name" => mod.name, "Enabled" => enabled} }
 
             lister = Nauvisian::CLI::Lister.for(options[:format].to_sym).new(%w(Name Enabled))
             lister.list(rows)
