@@ -14,3 +14,4 @@ task default: %i[spec rubocop]
 require "rake/clean"
 CLEAN.add("coverage")
 CLEAN.add(".rspec_status")
+CLOBBER.add("*.zip")
