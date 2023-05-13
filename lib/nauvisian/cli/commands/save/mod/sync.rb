@@ -12,15 +12,16 @@ module Nauvisian
 
             desc "Synchronize MODs and settings with the given save"
             argument :save_file, desc: "Save file of a Factorio game", required: true
+            option :mods_directory, desc: "The directory where MODs are installed", default: Nauvisian.platform.mods_directory
             option :exact, desc: "Use exact version", type: :boolean, default: false
             option :verbose, desc: "Print extra information", type: :boolean, default: false
-            option :mods_directory, desc: "The directory where MODs are installed", default: Nauvisian.platform.mods_directory
 
             def call(save_file:, **options)
               save_file_path = Pathname(save_file)
               save = Nauvisian::Save.load(save_file_path)
               mods_in_save = save.mods.sort # [[mod, version]]
 
+              options[:mods_directory] = Pathname(options[:mods_directory]) if options[:mods_directory].is_a?(String)
               existing_mods = ExistingMods.new(**options)
 
               downloader = Nauvisian::Downloader.new(credential: find_credential, progress: options[:verbose] ? Nauvisian::Progress::Bar : Nauvisian::Progress::Null)
@@ -41,7 +42,7 @@ module Nauvisian
             class ExistingMods
               include DownloadHelper
 
-              def initialize(mods_directory:, exact: false, verbose: false)
+              def initialize(mods_directory:, exact:, verbose:)
                 @exact = exact
                 @verbose = verbose
 
