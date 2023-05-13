@@ -3,15 +3,15 @@
 module Nauvisian
   module Progress
     class Null
-      def initialize(**options)
+      def initialize(_release)
         # do nothing
       end
 
-      def progress=(progress)
+      def progress=(_progress)
         # do nothing
       end
 
-      def total=(total)
+      def total=(_total)
         # do nothing
       end
     end

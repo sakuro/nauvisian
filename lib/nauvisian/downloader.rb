@@ -13,7 +13,7 @@ module Nauvisian
     end
 
     def download(release, output_path)
-      @progress = @progress_class.new(title: "⚙ %s" % release.file_name)
+      @progress = @progress_class.new(release)
       url = release.download_url.dup
       url.query = Rack::Utils.build_nested_query(@credential.to_h)
       data = get(url)

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe Nauvisian::Progress::Bar do
-  let(:progress) { Nauvisian::Progress::Bar.new }
+  let(:release) { Fabricate(:release) }
+  let(:progress) { Nauvisian::Progress::Bar.new(release) }
   let(:bar) { instance_double(ProgressBar::Base) }
 
   before do

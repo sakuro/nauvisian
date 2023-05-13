@@ -5,14 +5,11 @@ require "ruby-progressbar"
 module Nauvisian
   module Progress
     class Bar
-      DEFAULT_OPTIONS = {
-        format: "%t|%B|%J%%|",
-        title: "⚙"
-      }.freeze
-      private_constant :DEFAULT_OPTIONS
+      FORMAT = "%t|%B|%J%%|"
+      private_constant :FORMAT
 
-      def initialize(**options)
-        @progress_bar = ProgressBar.create(**DEFAULT_OPTIONS.merge(options))
+      def initialize(release)
+        @progress_bar = ProgressBar.create(title: release.file_name, format: FORMAT)
       end
 
       def progress=(progress)

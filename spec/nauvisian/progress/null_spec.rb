@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe Nauvisian::Progress::Null do
-  let(:progress) { Nauvisian::Progress::Null.new }
+  let(:release) { Fabricate(:release) }
+  let(:progress) { Nauvisian::Progress::Null.new(release) }
 
   it "responds to progress=" do
     expect(progress).to respond_to(:progress=)
