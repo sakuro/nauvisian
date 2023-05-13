@@ -5,6 +5,7 @@ require "dry/cli"
 require "nauvisian"
 
 require_relative "cli/commands/mod/disable"
+require_relative "cli/commands/mod/download"
 require_relative "cli/commands/mod/enable"
 require_relative "cli/commands/mod/info"
 require_relative "cli/commands/mod/installed"
@@ -20,6 +21,7 @@ module Nauvisian
 
       register "mod disable", Nauvisian::CLI::Commands::Mod::Disable
       register "mod enable", Nauvisian::CLI::Commands::Mod::Enable
+      register "mod download", Nauvisian::CLI::Commands::Mod::Download
       register "mod info", Nauvisian::CLI::Commands::Mod::Info
       register "mod installed", Nauvisian::CLI::Commands::Mod::Installed
       register "mod latest", Nauvisian::CLI::Commands::Mod::Latest
