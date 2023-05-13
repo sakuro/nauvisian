@@ -9,7 +9,7 @@ module Nauvisian
       private_constant :FORMAT
 
       def initialize(release)
-        @progress_bar = ProgressBar.create(title: release.file_name, format: FORMAT)
+        @progress_bar = ProgressBar.create(title: "⚙ %s" % release.file_name, format: FORMAT)
       end
 
       def progress=(progress)
