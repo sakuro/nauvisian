@@ -4,16 +4,16 @@ require "digest/sha1"
 require "open-uri"
 
 require "rack/utils"
-require "ruby-progressbar"
 
 module Nauvisian
   class Downloader
-    def initialize(credential:)
+    def initialize(credential:, progress: Nauvisian::Progress::Null)
       @credential = credential
+      @progress_class = progress
     end
 
     def download(release, output_path)
-      @progressbar = ProgressBar.create(title: "⚙ %s" % release.file_name, format: "%t|%B|%J%%|")
+      @progress = @progress_class.new(title: "⚙ %s" % release.file_name)
       url = release.download_url.dup
       url.query = Rack::Utils.build_nested_query(@credential.to_h)
       data = get(url)
@@ -40,11 +40,11 @@ module Nauvisian
     end
 
     private def set_total(total) # rubocop:disable Naming/AccessorMethodName
-      @progressbar.total = total if total
+      @progress.total = total if total
     end
 
     private def update_progress(progress)
-      @progressbar.progress = progress
+      @progress.progress = progress
     end
   end
 end
