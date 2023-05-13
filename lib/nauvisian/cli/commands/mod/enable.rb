@@ -8,14 +8,15 @@ module Nauvisian
           desc "Enable a installed MOD"
           argument :mod, desc: "Target MOD", required: true
 
-          option :mods_dir, desc: "Directory MODs are installed", required: false, default: Nauvisian.platform.mods_directory.to_s
+          option :mods_directory, desc: "Directory where MODs are installed", required: false, default: Nauvisian.platform.mods_directory.to_s
 
           def call(mod:, **options)
-            mod_list_path = Pathname(options[:mods_dir]) + "mod-list.json"
+            mods_directory = Pathname(options[:mods_directory])
+            mod_list_path = mods_directory / "mod-list.json"
             list = Nauvisian::ModList.load(mod_list_path)
             mod = Nauvisian::Mod[name: mod]
             list.enable(mod)
-            list.save
+            list.save(mod_list_path)
           rescue Nauvisian::ModList::NotListedError
             puts "You can't enable a MOD which is not in the MOD list"
             exit 1
