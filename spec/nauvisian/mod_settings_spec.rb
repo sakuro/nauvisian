@@ -37,4 +37,10 @@ RSpec.describe Nauvisian::ModSettings do
       }.from(500_000).to(0)
     end
   end
+
+  describe "#to_json" do
+    it "includes version" do
+      expect(JSON.parse(settings.to_json)).to include("version" => "1.1.37-0")
+    end
+  end
 end
