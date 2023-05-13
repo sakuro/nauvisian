@@ -56,24 +56,34 @@ module Nauvisian
               def exact? = @exact
               def verbose? = @verbose
 
+              def log(message, newline: true)
+                return unless verbose?
+
+                if newline
+                  puts message
+                else
+                  print message
+                end
+              end
+
               def release_to_download(mod, version)
-                print "Checking #{mod.name} #{version} ... " if verbose?
+                log "⚙ Checking #{mod.name} #{version} ... ", newline: false
 
                 case @mods
                 in [*, [^mod, [*, ^version, *]], *]
-                  puts "✓ Exact version exists, nothing to do" if verbose?
+                  log "✓ Exact version exists, nothing to do"
                 in [*, [^mod, [*versions]], *]
                   if exact?
-                    puts "↓ some versions are installed but exact version is requested" if verbose?
+                    log "📥 some versions are installed but exact version is requested"
                     find_release(mod, version:)
                   elsif versions.all? {|v| v < version }
-                    puts "↓ all versions are older than #{version}, let's download the latest" if verbose?
+                    log "📥 all versions are older than #{version}, let's download the latest"
                     find_release(mod)
                   else
-                    puts "↑ newer version exists, nothing to do" if verbose?
+                    log "✓ newer version exists, nothing to do"
                   end
                 else
-                  puts "❌MOD is not installed" if verbose?
+                  log "❌ MOD is not installed"
                   exact? ? find_release(mod, version:) : find_release(mod)
                 end
               end
