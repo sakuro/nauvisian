@@ -32,7 +32,7 @@ module Nauvisian
                 release = existing_mods.release_to_download(mod, version)
                 next unless release
 
-                downloader.download(release, options[:mods_directory] + release.file_name)
+                downloader.download(release, options[:mods_directory] / release.file_name)
               end
 
               list = Nauvisian::ModList.new(mods_in_save.map {|mod, _version| [mod, true] })

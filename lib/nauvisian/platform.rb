@@ -19,11 +19,11 @@ module Nauvisian
       end
     end
 
-    def mods_directory = user_data_directory + "mods"
+    def mods_directory = user_data_directory / "mods"
 
-    def saves_directory = user_data_directory + "saves"
+    def saves_directory = user_data_directory / "saves"
 
-    def script_output_directory = user_data_directory + "script-output"
+    def script_output_directory = user_data_directory / "script-output"
 
     # Returns the directory which holds user data
     def user_data_directory
