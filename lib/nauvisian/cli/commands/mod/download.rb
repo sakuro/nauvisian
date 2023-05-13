@@ -17,7 +17,7 @@ module Nauvisian
 
           def call(mod:, **options)
             credential = find_credential(options.slice(:user, :token))
-            release = find_release(Nauvisian::Mod[name: mod], options.slice(:version))
+            release = find_release(Nauvisian::Mod[name: mod], version: options.key?(:version) ? Nauvisian::Version24[options[:version]] : nil)
 
             downloader = Nauvisian::Downloader.new(credential:, progress: Nauvisian::Progress::Bar)
             downloader.download(release, release.file_name)
