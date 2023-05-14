@@ -34,9 +34,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "dry-cli", "~> 1.0"
   spec.add_dependency "dry-inflector", "~> 1.0"
-  spec.add_dependency "gdbm", "~> 2.1"
   spec.add_dependency "rack", "~> 3.0"
-  spec.add_dependency "retriable", "~> 3.1.2"
   spec.add_dependency "ruby-progressbar", "~> 1.11"
   spec.add_dependency "rubyzip", "~> 2.3"
 end
