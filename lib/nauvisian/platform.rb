@@ -35,7 +35,7 @@ module Nauvisian
     end
 
     def home_directory
-      Pathname('~').expand_path.freeze
+      Pathname("~").expand_path.freeze
     end
 
     class MacOS < self

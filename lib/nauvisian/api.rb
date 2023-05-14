@@ -13,7 +13,7 @@ module Nauvisian
     private_constant :MOD_PORTAL_ENDPOINT_URI
 
     def initialize
-      @cache = Nauvisian::Cache::FileSystem.new(name: 'api')
+      @cache = Nauvisian::Cache::FileSystem.new(name: "api")
     end
 
     def detail(mod)

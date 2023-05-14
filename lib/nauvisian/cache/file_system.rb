@@ -7,6 +7,7 @@ module Nauvisian
   module Cache
     class FileSystem
       class TtlTooShort < ArgumentError; end
+      class BlockRequired < ArgumentError; end
 
       MINIMUM_TTL = 5 * 60 # 5 minutes
       private_constant :MINIMUM_TTL
@@ -17,18 +18,21 @@ module Nauvisian
       def initialize(name:, ttl: MINIMUM_TTL)
         raise TtlTooShort, ttl if ttl < MINIMUM_TTL
 
-        @root = CACHE_ROOT / 'nauvisian' / name
+        @root = CACHE_ROOT / "nauvisian" / name
         @ttl = ttl
       end
 
       private attr_reader :root
 
-      def fetch(key, &block)
+      def fetch(key)
+        raise BlockRequired unless block_given?
+
         path = generate_path(key)
 
         if path.exist?
           # If fresh cache exists, return it
           return path.binread if Time.now - path.mtime < @ttl
+
           # As we expect fetching content should finish within the TTL, We can safely delete the stale cache
           path.delete
         end
@@ -36,8 +40,8 @@ module Nauvisian
         # If cache does not exist, fetch the content
         dir = path.dirname
         dir.mkpath
-        tmp = Tempfile.create('.cache-', dir, mode: IO::BINARY | IO::CREAT)
-        content = block.call
+        tmp = Tempfile.create(".cache-", dir, mode: IO::BINARY | IO::CREAT)
+        content = yield
         tmp.write(content)
         tmp.close
 
