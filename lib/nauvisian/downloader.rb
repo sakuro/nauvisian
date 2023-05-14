@@ -10,13 +10,14 @@ module Nauvisian
     def initialize(credential:, progress: Nauvisian::Progress::Null)
       @credential = credential
       @progress_class = progress
+      @cache = Nauvisian::Cache::FileSystem.new(name: 'download')
     end
 
     def download(release, output_path)
       @progress = @progress_class.new(release)
       url = release.download_url.dup
       url.query = Rack::Utils.build_nested_query(@credential.to_h)
-      data = get(url)
+      data = @cache.fetch(url) { get(url) }
       File.binwrite(output_path, data)
       raise DigestError, "Digest mismatch" unless Digest::SHA1.file(output_path) == release.sha1
     end

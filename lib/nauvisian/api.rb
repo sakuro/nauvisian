@@ -12,6 +12,10 @@ module Nauvisian
     MOD_PORTAL_ENDPOINT_URI = URI("https://mods.factorio.com").freeze
     private_constant :MOD_PORTAL_ENDPOINT_URI
 
+    def initialize
+      @cache = Nauvisian::Cache::FileSystem.new(name: 'api')
+    end
+
     def detail(mod)
       path = "/api/mods/#{mod.name}/full"
       raw_data = get(path)
@@ -39,7 +43,7 @@ module Nauvisian
       request_url = MOD_PORTAL_ENDPOINT_URI + path
       request_url.query = Rack::Utils.build_nested_query(params)
       begin
-        data = request_url.read
+        data = @cache.fetch(request_url) { request_url.read }
         JSON.parse(data, symbolize_names: true)
       rescue OpenURI::HTTPError => e
         case e.io.status

@@ -45,11 +45,13 @@ module Nauvisian
         path.open(IO::BINARY | IO::CREAT | IO::EXCL).close
         # if successful, we can safely store the content
         Pathname(tmp.path).rename(path)
+
         content
       rescue Errno::EEXIST
         Pathname(tmp).delete
         # If storing the content fails, other process/thread etc. should have created it.
         # We can read it safely.
+
         retry
       end
 
