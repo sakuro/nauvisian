@@ -34,5 +34,6 @@ module Nauvisian
 end
 
 # some class must be loaded after definine Nauvisian::Platform.platform
+require_relative "nauvisian/cache"
 require_relative "nauvisian/mod_list"
 require_relative "nauvisian/mod_settings"
