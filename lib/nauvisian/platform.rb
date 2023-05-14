@@ -34,6 +34,10 @@ module Nauvisian
       APPLICATON_DIRECTORIES.find(&:directory?)
     end
 
+    def home_directory
+      Pathname('~').expand_path.freeze
+    end
+
     class MacOS < self
       def user_data_directory
         Pathname("~/Library/Application Support/Factorio").expand_path.freeze
@@ -59,6 +63,10 @@ module Nauvisian
     class Windows < self
       def user_data_directory
         (Pathname(ENV.fetch("APPDATA")).expand_path / "Factorio").freeze
+      end
+
+      def home_directory
+        Pathname(ENV.fetch("USERPROFILE")).expand_path.freeze
       end
 
       APPLICATON_DIRECTORIES = [].freeze
