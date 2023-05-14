@@ -10,7 +10,7 @@ module Nauvisian
     def initialize(credential:, progress: Nauvisian::Progress::Null)
       @credential = credential
       @progress_class = progress
-      @cache = Nauvisian::Cache::FileSystem.new(name: "download")
+      @cache = Nauvisian::Cache::FileSystem.new(name: "download", ttl: Float::INFINITY)
     end
 
     def download(release, output_path)
