@@ -55,7 +55,7 @@ RSpec.describe Nauvisian::Save do
         end
 
         it "includes base and other MODs in the save" do
-          expect(save.mods.keys.map(&:name)).to contain_exactly(*%w(base AutoDeconstruct BottleneckLite even-distribution flib))
+          expect(save.mods.keys.map(&:name)).to match_array(%w(base AutoDeconstruct BottleneckLite even-distribution flib))
           expect(save.mods).to eq(
             Nauvisian::Mod[name: "base"] => Nauvisian::Version24["1.1.74"],
             Nauvisian::Mod[name: "AutoDeconstruct"] => Nauvisian::Version24["0.3.5"],
