@@ -17,12 +17,13 @@ require:
   - rubocop-rspec
 
 AllCops:
-  EnabledByDefault: true
-  TargetRubyVersion: 3.2
   DisplayCopNames: true
   DisplayStyleGuide: true
-  ExtraDetails: true
-  UseCache: true
+  EnabledByDefault: true
   Exclude:
     - bin/**/*
     - vendor/**/*
+  ExtraDetails: true
+  NewCops: enable
+  TargetRubyVersion: 3.2
+  UseCache: true
