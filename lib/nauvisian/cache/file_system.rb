@@ -14,7 +14,7 @@ module Nauvisian
       end
 
       def initialize(name:, ttl: MINIMUM_TTL)
-        raise ArgumentError, ttl if ttl < MINIMUM_TTL
+        raise ArgumentError, "ttl is too small (must be >= #{MINIMUM_TTL})" if ttl < MINIMUM_TTL
 
         @cache_directory = self.class.cache_root / name
         @ttl = ttl
@@ -54,18 +54,20 @@ module Nauvisian
       private def store(path, content)
         dir = path.dirname
         dir.mkpath
+
+        # Store into a temporary file
         tmp = Tempfile.create(".cache-", dir, mode: IO::BINARY | IO::CREAT)
         tmp.write(content)
         tmp.close
 
-        # Let's try opening the cache path exclusively
+        # Let's try opening the desired cache path exclusively
         path.open(IO::BINARY | IO::CREAT | IO::EXCL).close
 
-        # if successful, we can safely rename
+        # If successful, we can safely rename
         tmp_path = Pathname(tmp)
         tmp_path.rename(path)
       rescue Errno::EEXIST
-        # If storing the content fails, other process/thread etc. should have created it.
+        # In case the desired path already has a file, other process/thread etc. should have created it.
         tmp_path.delete
         raise
       end
