@@ -26,5 +26,3 @@ AllCops:
   Exclude:
     - bin/**/*
     - vendor/**/*
-    - spec/spec_helper.rb
-    - spec/support/rspec.rb
