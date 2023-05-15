@@ -16,6 +16,9 @@ RSpec/ExampleLength:
 RSpec/MultipleExpectations:
   Enabled: false
 
+RSpec/PendingWithoutReason:
+  Enabled: false
+
 # Data.define do が救済できるようになったら消す。
 Style/ConstantVisibility:
   Enabled: false
