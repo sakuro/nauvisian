@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require "csv"
-require "json"
-
 module Nauvisian
   module CLI
     module DownloadHelper
