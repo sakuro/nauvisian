@@ -26,5 +26,17 @@ RSpec.describe Nauvisian::Mod do
       expect(Nauvisian::Mod[name: "foo"] != Nauvisian::Mod[name: "bar"]).to be_truthy
       expect(Nauvisian::Mod[name: "foo"] > Nauvisian::Mod[name: "Bar"]).to be_truthy
     end
+
+    context "when self is base" do
+      it "is always smaller then non-base MOD" do
+        expect(Nauvisian::Mod[name: "base"] < Nauvisian::Mod[name: "a"]).to be_truthy
+      end
+    end
+
+    context "when self is non-base" do
+      it "is always bigger than base MOD" do
+        expect(Nauvisian::Mod[name: "a"] > Nauvisian::Mod[name: "base"]).to be_truthy
+      end
+    end
   end
 end
