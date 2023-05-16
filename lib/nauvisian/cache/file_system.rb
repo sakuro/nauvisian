@@ -26,19 +26,15 @@ module Nauvisian
         path = generate_path(key)
 
         if path.exist?
-          # Fresh cache exists, return it
           return path.binread unless stale?(path, Time.now)
 
-          # As we expect fetching content should finish within the TTL, we can safely delete the stale cache here
           path.delete
         end
 
-        # Cache does not exist, fetch the content
-        content = yield
-        store(path, content)
-        content
+        yield.tap {|content| store(path, content) }
       rescue Errno::EEXIST
-        # We can read it safely next time.
+        # This can happen when other process/thread is refreshing the cache.
+        # We can try reading the refreshed data next time.
         retry
       end
 
@@ -60,16 +56,8 @@ module Nauvisian
         tmp.write(content)
         tmp.close
 
-        # Let's try opening the desired cache path exclusively
-        path.open(IO::BINARY | IO::CREAT | IO::EXCL).close
-
-        # If successful, we can safely rename
-        tmp_path = Pathname(tmp)
-        tmp_path.rename(path)
-      rescue Errno::EEXIST
-        # In case the desired path already has a file, other process/thread etc. should have created it.
-        tmp_path.delete
-        raise
+        # Rename to the desired path
+        File.rename(tmp.path, path)
       end
     end
   end
