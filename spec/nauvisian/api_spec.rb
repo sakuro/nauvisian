@@ -68,7 +68,7 @@ RSpec.describe Nauvisian::API do
         )
       end
 
-      it "raises ModNotFound" do
+      it "raises Nauvisian::ModNotFound" do
         expect { api.releases(mod) }.to raise_error(Nauvisian::ModNotFound)
       end
     end

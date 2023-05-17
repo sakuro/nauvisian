@@ -213,7 +213,7 @@ RSpec.describe Nauvisian::Serializer do
     end
 
     context "when writing unknown object type" do
-      it "raises UnknownPropertyType" do
+      it "raises Nauvisian::UnknownPropertyType" do
         expect { serializer.write_property_tree(Object.new) }.to raise_error(Nauvisian::UnknownPropertyType)
       end
     end

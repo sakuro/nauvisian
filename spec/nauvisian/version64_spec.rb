@@ -15,7 +15,7 @@ RSpec.describe Nauvisian::Version64 do
         expect(internal_version(version)).to eq [1, 2, 3, 0]
       end
 
-      it "raises with malformed string" do
+      it "raises ArgumentError with malformed string" do
         expect { Nauvisian::Version64["1.2.3."] }.to raise_error(ArgumentError)
       end
     end
@@ -26,19 +26,19 @@ RSpec.describe Nauvisian::Version64 do
         expect(internal_version(version)).to eq [1, 2, 3, 4]
       end
 
-      it "raises with 3 or less arguments" do
+      it "raises ArgumentError with 3 or less arguments" do
         expect { Nauvisian::Version64[1, 2, 3] }.to raise_error(ArgumentError)
       end
 
-      it "raises with 5 or more arguments" do
+      it "raises ArgumentError with 5 or more arguments" do
         expect { Nauvisian::Version64[1, 2, 3, 4, 5] }.to raise_error(ArgumentError)
       end
 
-      it "raises with negative argument" do
+      it "raises ArgumentError with negative argument" do
         expect { Nauvisian::Version64[1, 2, 3, -4] }.to raise_error(ArgumentError)
       end
 
-      it "raises with argument greater than 65535" do
+      it "raises ArgumentError with argument greater than 65535" do
         expect { Nauvisian::Version64[1, 2, 3, 65536] }.to raise_error(ArgumentError)
       end
     end

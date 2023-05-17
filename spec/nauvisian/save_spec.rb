@@ -30,7 +30,7 @@ RSpec.describe Nauvisian::Save do
       context "with wrong version" do
         let(:zip_path) { "spec/fixtures/save/wrong-version.zip" }
 
-        it "raises UnsupportedVersionr" do
+        it "raises Nauvisian::UnsupportedVersionr" do
           expect { save }.to raise_error(Nauvisian::UnsupportedVersion)
         end
       end

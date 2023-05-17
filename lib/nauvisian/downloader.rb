@@ -19,7 +19,7 @@ module Nauvisian
       url.query = Rack::Utils.build_nested_query(@credential.to_h)
       data = @cache.fetch(url) { get(url) }
       File.binwrite(output_path, data)
-      raise DigestError, "Digest mismatch" unless Digest::SHA1.file(output_path) == release.sha1
+      raise Nauvisian::DigestMismatch unless Digest::SHA1.file(output_path) == release.sha1
     end
 
     private def get(url)

@@ -50,53 +50,65 @@ RSpec.describe Nauvisian::ModList do
   end
 
   describe "#add" do
-    it "adds non-listed MOD" do
-      expect { list.add(non_listed_mod) }.to change { list.exist?(non_listed_mod) }.from(false).to(true)
+    context "when adding non-listed MOD" do
+      it "adds the MOD" do
+        expect { list.add(non_listed_mod) }.to change { list.exist?(non_listed_mod) }.from(false).to(true)
+      end
+
+      it "adds MOD as enabled without explicit flag" do
+        list.add(non_listed_mod)
+        expect(list).to be_enabled(non_listed_mod)
+      end
+
+      it "adds MOD as enabled with explicit true flag" do
+        list.add(non_listed_mod, enabled: true)
+        expect(list).to be_enabled(non_listed_mod)
+      end
+
+      it "adds MOD as disabled with explicit false flag" do
+        list.add(non_listed_mod, enabled: false)
+        expect(list).not_to be_enabled(non_listed_mod)
+      end
     end
 
-    it "adds MOD as enabled without explicit flag" do
-      list.add(non_listed_mod)
-      expect(list).to be_enabled(non_listed_mod)
+    context "when adding already listed MOD" do
+      it "enables the MOD without explicit flag" do
+        expect { list.add(disabled_mod) }.to change { list.enabled?(disabled_mod) }.from(false).to(true)
+      end
+
+      it "enables the MOD with explicit true flag" do
+        expect { list.add(disabled_mod, enabled: true) }.to change { list.enabled?(disabled_mod) }.from(false).to(true)
+      end
+
+      it "disables the MOD with explicit false flag" do
+        expect { list.add(enabled_mod, enabled: false) }.to change { list.enabled?(enabled_mod) }.from(true).to(false)
+      end
     end
 
-    it "adds MOD as enabled with explicit true flag" do
-      list.add(non_listed_mod, enabled: true)
-      expect(list).to be_enabled(non_listed_mod)
-    end
-
-    it "adds MOD as disabled with explicit false flag" do
-      list.add(non_listed_mod, enabled: false)
-      expect(list).not_to be_enabled(non_listed_mod)
-    end
-
-    it "enables already listed disabled MOD withoput explicit flag" do
-      expect { list.add(disabled_mod) }.to change { list.enabled?(disabled_mod) }.from(false).to(true)
-    end
-
-    it "enables already listed disabled MOD with explicit true flag" do
-      expect { list.add(disabled_mod, enabled: true) }.to change { list.enabled?(disabled_mod) }.from(false).to(true)
-    end
-
-    it "disables already listed enabled MOD with explicit false flag" do
-      expect { list.add(enabled_mod, enabled: false) }.to change { list.enabled?(enabled_mod) }.from(true).to(false)
-    end
-
-    it "can't add base MOD as enabled: false" do
-      expect { list.add(base_mod, enabled: false) }.to raise_error(ArgumentError)
+    context "when adding the base MOD" do
+      it "can't add base MOD as disabled" do
+        expect { list.add(base_mod, enabled: false) }.to raise_error(ArgumentError)
+      end
     end
   end
 
   describe "#remove" do
-    it "removes listed MOD" do
-      expect { list.remove(enabled_mod) }.to change { list.exist?(enabled_mod) }.from(true).to(false)
+    context "when removing listed MOD" do
+      it "removes the MOD" do
+        expect { list.remove(enabled_mod) }.to change { list.exist?(enabled_mod) }.from(true).to(false)
+      end
     end
 
-    it "does nothing on removing non-listed MOD" do
-      expect { list.remove(non_listed_mod) }.not_to raise_error
+    context "when removing non-listed MOD" do
+      it "does nothing" do
+        expect { list.remove(non_listed_mod) }.not_to raise_error
+      end
     end
 
-    it "raises ArgumentError on removing base MOD" do
-      expect { list.remove(base_mod) }.to raise_error(ArgumentError)
+    context "when removing the base MOD" do
+      it "raises ArgumentError" do
+        expect { list.remove(base_mod) }.to raise_error(ArgumentError)
+      end
     end
   end
 
@@ -119,8 +131,8 @@ RSpec.describe Nauvisian::ModList do
       expect { list.enable(enabled_mod) }.not_to change { list.enabled?(enabled_mod) }.from(true)
     end
 
-    it "raises Nauvisian::ModList::NotListedError on enabling non-listed MOD" do
-      expect { list.enable(non_listed_mod) }.to raise_error(Nauvisian::ModList::NotListedError)
+    it "raises Nauvisian::ModNotFound on enabling non-listed MOD" do
+      expect { list.enable(non_listed_mod) }.to raise_error(Nauvisian::ModNotFound)
     end
   end
 
@@ -133,8 +145,8 @@ RSpec.describe Nauvisian::ModList do
       expect { list.disable(disabled_mod) }.not_to change { list.enabled?(disabled_mod) }.from(false)
     end
 
-    it "raises Nauvisian::ModList::NotListedError on disabling non-listed MOD" do
-      expect { list.disable(non_listed_mod) }.to raise_error(Nauvisian::ModList::NotListedError)
+    it "raises Nauvisian::ModNotFound on disabling non-listed MOD" do
+      expect { list.disable(non_listed_mod) }.to raise_error(Nauvisian::ModNotFound)
     end
 
     it "raises ArgumentError on disabling base MOD" do
@@ -151,8 +163,8 @@ RSpec.describe Nauvisian::ModList do
       expect(list).not_to be_enabled(disabled_mod)
     end
 
-    it "raises Nauvisian::ModList::NotListedError for non-listed MOD" do
-      expect { list.enabled?(non_listed_mod) }.to raise_error(Nauvisian::ModList::NotListedError)
+    it "raises Nauvisian::ModNotFound for non-listed MOD" do
+      expect { list.enabled?(non_listed_mod) }.to raise_error(Nauvisian::ModNotFound)
     end
   end
 end

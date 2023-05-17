@@ -104,7 +104,7 @@ module Nauvisian
         write_bool(false)
         write_dictionary(dict)
       else
-        raise UnknownPropertyType, obj.class
+        raise Nauvisian::UnknownPropertyType, obj.class
       end
     end
   end

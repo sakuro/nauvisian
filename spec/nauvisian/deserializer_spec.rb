@@ -8,7 +8,7 @@ RSpec.describe Nauvisian::Deserializer do
 
   describe ".new" do
     context "with object without #read" do
-      it "raises ArgumentError if the argument does not respond to #read" do
+      it "raises ArgumentError" do
         expect { Nauvisian::Deserializer.new(%w(x y z)) }.to raise_error(ArgumentError)
       end
     end
@@ -44,7 +44,7 @@ RSpec.describe Nauvisian::Deserializer do
     end
 
     context "with nil length" do
-      it "returns ArgumentError" do
+      it "raises ArgumentError" do
         expect { deserializer.read_bytes(nil) }.to raise_error(ArgumentError)
       end
     end
@@ -335,7 +335,7 @@ RSpec.describe Nauvisian::Deserializer do
     context "when reading unknown type" do
       let(:type_byte) { "\x06" }
 
-      it "raises UnknownPropertyType" do
+      it "raises Nauvisian::UnknownPropertyType" do
         expect { deserializer.read_property_tree }.to raise_error(Nauvisian::UnknownPropertyType)
       end
     end
