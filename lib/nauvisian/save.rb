@@ -46,7 +46,7 @@ module Nauvisian
 
       private def populate(des)
         version = des.read_version64
-        raise ArgumentError, "Unsupported version" if version < Nauvisian::Version64[1, 0, 0, 0]
+        raise Nauvisian::UnsupportedVersion if version < Nauvisian::Version64[1, 0, 0, 0]
 
         des.read_u8 # skip a byte
 

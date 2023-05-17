@@ -34,7 +34,7 @@ module Nauvisian
     rescue OpenURI::HTTPError => e
       case e.io.status
       in ["404", _]
-        raise Nauvisian::NotFound
+        raise Nauvisian::ModNotFound
       else
         raise Nauvisian::Error
       end

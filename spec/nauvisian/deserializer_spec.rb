@@ -335,7 +335,7 @@ RSpec.describe Nauvisian::Deserializer do
     context "when reading unknown type" do
       let(:type_byte) { "\x06" }
 
-      it "raises error" do
+      it "raises UnknownPropertyType" do
         expect { deserializer.read_property_tree }.to raise_error(Nauvisian::UnknownPropertyType)
       end
     end

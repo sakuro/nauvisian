@@ -5,6 +5,8 @@ require "open-uri"
 
 require "rack/utils"
 
+require "nauvisian/error"
+
 module Nauvisian
   # Mod Portal API
   # https://wiki.factorio.com/Mod_portal_API
@@ -48,7 +50,7 @@ module Nauvisian
       rescue OpenURI::HTTPError => e
         case e.io.status
         in ["404", _]
-          raise Nauvisian::NotFound
+          raise Nauvisian::ModNotFound
         else
           raise Nauvisian::Error
         end

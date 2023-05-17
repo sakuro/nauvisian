@@ -35,7 +35,7 @@ RSpec.describe Nauvisian::Downloader do
         )
       end
 
-      it "raises Nauvisian::AuthError" do
+      it "raises AuthError" do
         expect { downloader.download(release, output_path) }.to raise_error(Nauvisian::AuthError)
       end
     end
@@ -68,7 +68,7 @@ RSpec.describe Nauvisian::Downloader do
           allow(Digest::SHA1).to receive(:file).with(output_path).and_return(invalid_sha1)
         end
 
-        it "raises Nauvisian::DigestError" do
+        it "raises DigestError" do
           expect { downloader.download(release, output_path) }.to raise_error(Nauvisian::DigestError)
         end
       end
@@ -81,8 +81,8 @@ RSpec.describe Nauvisian::Downloader do
         )
       end
 
-      it "raises Nauvisian::NotFound" do
-        expect { downloader.download(release, output_path) }.to raise_error(Nauvisian::NotFound)
+      it "raises ModNotFound" do
+        expect { downloader.download(release, output_path) }.to raise_error(Nauvisian::ModNotFound)
       end
     end
 
