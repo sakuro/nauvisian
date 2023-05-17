@@ -9,7 +9,11 @@ Gem::Specification.new do |spec|
   spec.email = ["10973+sakuro@users.noreply.github.com"]
 
   spec.summary = "A library for managing Factorio MODs"
-  spec.description = "Nauvisian is a ruby library for the management of Factorio MODs (download/upload/enable/disable)"
+  spec.description = <<~DESC
+    Nauvisian is a ruby library for the management of Factorio MODs.
+
+    It comes with a CLI.
+  DESC
   spec.homepage = "https://github.com/sakuro/nauvisian"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.2.0"
