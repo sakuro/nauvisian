@@ -31,7 +31,7 @@ module Nauvisian
 
       private def generate_path(key)
         digest = Digest::MD5.hexdigest(key.to_s)
-        @cache_directory.join(digest[0], digest[1], digest[2..])
+        @cache_directory.join(digest[0..1], digest[2..3], digest[4..])
       end
 
       private def stale?(path, time)
