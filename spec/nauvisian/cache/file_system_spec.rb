@@ -77,7 +77,6 @@ RSpec.describe Nauvisian::Cache::FileSystem do
 
     before do
       allow(cache).to receive(:generate_path).with(key).and_return(path)
-      allow(path).to receive(:delete)
       allow(cache).to receive(:store).with(path, "block value")
     end
 

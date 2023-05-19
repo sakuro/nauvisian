@@ -25,11 +25,7 @@ module Nauvisian
       def fetch(key)
         path = generate_path(key)
 
-        if path.exist?
-          return path.binread unless stale?(path, Time.now)
-
-          path.delete
-        end
+        return path.binread if path.exist? && !stale?(path, Time.now)
 
         yield.tap {|content| store(path, content) }
       rescue Errno::EEXIST
