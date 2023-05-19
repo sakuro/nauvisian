@@ -38,6 +38,10 @@ module Nauvisian
 
               list = Nauvisian::ModList.new(mods_in_save.map {|mod, _version| [mod, true] })
               list.save(options[:mods_directory] / "mod-list.json")
+
+              settings = Nauvisian::ModSettings.load(options[:mods_directory] / "mod-settings.dat")
+              settings["startup"] = save.startup_settings
+              settings.save(options[:mods_directory] / "mod-settings.dat")
             end
 
             class ExistingMods
