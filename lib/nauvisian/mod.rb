@@ -8,6 +8,8 @@ module Nauvisian
       name == "base"
     end
 
+    def to_s = name
+
     def <=>(other)
       (base? && (other.base? ? 0 : -1)) || (other.base? ? 1 : name.casecmp(other.name))
     end

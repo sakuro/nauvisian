@@ -11,6 +11,8 @@ module Nauvisian
   # Mod Portal API
   # https://wiki.factorio.com/Mod_portal_API
   class API
+    class Error < Nauvisian::Error; end
+
     MOD_PORTAL_ENDPOINT_URI = URI("https://mods.factorio.com").freeze
     private_constant :MOD_PORTAL_ENDPOINT_URI
 
@@ -19,16 +21,31 @@ module Nauvisian
     end
 
     def detail(mod)
-      path = "/api/mods/#{mod.name}/full"
-      raw_data = get(path)
-      data = raw_data.slice(:downloads_count, :name, :owner, :summary, :title, :category, :description)
-      Nauvisian::Mod::Detail[created_at: Time.parse(raw_data[:created_at]), **data]
+      with_error_handling(mod) do
+        path = "/api/mods/#{mod.name}/full"
+        raw_data = get(path)
+        data = raw_data.slice(:downloads_count, :name, :owner, :summary, :title, :category, :description)
+        Nauvisian::Mod::Detail[created_at: Time.parse(raw_data[:created_at]), **data]
+      end
     end
 
     def releases(mod)
-      path = "/api/mods/#{mod.name}"
-      raw_data = get(path)
-      parse_releases(raw_data[:releases], mod:)
+      with_error_handling(mod) do
+        path = "/api/mods/#{mod.name}"
+        raw_data = get(path)
+        parse_releases(raw_data[:releases], mod:)
+      end
+    end
+
+    private def with_error_handling(mod)
+      yield
+    rescue OpenURI::HTTPError => e
+      case e.io.status
+      in ["404", _]
+        raise Nauvisian::ModNotFound, mod
+      else
+        raise Nauvisian::API::Error, e.io.status
+      end
     end
 
     private def parse_releases(raw_releases, mod:)
@@ -44,19 +61,8 @@ module Nauvisian
     private def get(path, **params)
       request_url = MOD_PORTAL_ENDPOINT_URI + path
       request_url.query = Rack::Utils.build_nested_query(params)
-      begin
-        data = @cache.fetch(request_url) { request_url.read }
-        JSON.parse(data, symbolize_names: true)
-      rescue OpenURI::HTTPError => e
-        case e.io.status
-        in ["404", _]
-          raise Nauvisian::ModNotFound
-        else
-          raise Nauvisian::Error
-        end
-      rescue
-        raise Nauvisian::Error
-      end
+      data = @cache.fetch(request_url) { request_url.read }
+      JSON.parse(data, symbolize_names: true)
     end
   end
 end
