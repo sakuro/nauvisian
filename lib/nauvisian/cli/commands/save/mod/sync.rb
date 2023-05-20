@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "../../../download_helper"
+require_relative "../../../message_helper"
 
 module Nauvisian
   module CLI
@@ -9,6 +10,7 @@ module Nauvisian
         module Mod
           class Sync < Dry::CLI::Command
             include DownloadHelper
+            include MessageHelper
 
             desc "Synchronize MODs and settings with the given save"
             argument :save_file, desc: "Save file of a Factorio game", required: true
@@ -43,12 +45,13 @@ module Nauvisian
               settings["startup"] = save.startup_settings
               settings.save(options[:mod_directory] / "mod-settings.dat")
             rescue => e
-              puts e.message
+              message(e)
               exit 1
             end
 
             class ExistingMods
               include DownloadHelper
+              include MessageHelper
 
               def initialize(mod_directory:, exact:, verbose:)
                 @exact = exact
@@ -65,34 +68,24 @@ module Nauvisian
               def exact? = @exact
               def verbose? = @verbose
 
-              def log(message, newline: true)
-                return unless verbose?
-
-                if newline
-                  puts message
-                else
-                  print message
-                end
-              end
-
               def release_to_download(mod, version)
-                log "⚙ Checking #{mod.name} #{version} ... ", newline: false
+                message "⚙ Checking #{mod.name} #{version} ... "
 
                 case @mods
                 in [*, [^mod, [*, ^version, *]], *]
-                  log "✓ Exact version exists, nothing to do"
+                  message "✓ Exact version exists, nothing to do"
                 in [*, [^mod, [*versions]], *]
                   if exact?
-                    log "📥 some versions are installed but exact version is requested"
+                    message "📥 some versions are installed but exact version is requested"
                     find_release(mod, version:)
                   elsif versions.all? {|v| v < version }
-                    log "📥 all versions are older than #{version}, let's download the latest"
+                    message "📥 all versions are older than #{version}, let's download the latest"
                     find_release(mod)
                   else
-                    log "✓ newer version exists, nothing to do"
+                    message "✓ newer version exists, nothing to do"
                   end
                 else
-                  log "❌ MOD is not installed"
+                  message "❌ MOD is not installed"
                   exact? ? find_release(mod, version:) : find_release(mod)
                 end
               end

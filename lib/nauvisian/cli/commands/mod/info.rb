@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
+require_relative "../../message_helper"
+
 module Nauvisian
   module CLI
     module Commands
       module Mod
         class Info < Dry::CLI::Command
+          include MessageHelper
+
           desc "Show info of MOD"
           argument :mod, desc: "Target MOD", required: true
 
@@ -25,7 +29,7 @@ module Nauvisian
               Description: #{detail.description}
             DETAIL
           rescue => e
-            puts e.message
+            message(e)
             exit 1
           end
         end

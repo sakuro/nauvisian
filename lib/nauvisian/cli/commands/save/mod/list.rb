@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "../../../lister"
+require_relative "../../../message_helper"
 
 module Nauvisian
   module CLI
@@ -8,6 +9,8 @@ module Nauvisian
       module Save
         module Mod
           class List < Dry::CLI::Command
+            include MessageHelper
+
             desc "List MODs used in the given save"
             argument :file, desc: "Save file of a Factorio game", required: true
             option :format, default: "plain", values: Nauvisian::CLI::Lister.all, desc: "Output format"
@@ -21,7 +24,7 @@ module Nauvisian
               lister = Nauvisian::CLI::Lister.for(options[:format].to_sym).new(%w(Name Version))
               lister.list(rows)
             rescue => e
-              puts e.message
+              message(e)
               exit 1
             end
           end

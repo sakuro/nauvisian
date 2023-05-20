@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "../../download_helper"
+require_relative "../../message_helper"
 
 module Nauvisian
   module CLI
@@ -8,6 +9,7 @@ module Nauvisian
       module Mod
         class Download < Dry::CLI::Command
           include DownloadHelper
+          include MessageHelper
 
           desc "Download a MOD"
           argument :mod, desc: "Target MOD", required: true
@@ -22,7 +24,7 @@ module Nauvisian
             downloader = Nauvisian::Downloader.new(credential:, progress: Nauvisian::Progress::Bar)
             downloader.download(release, release.file_name)
           rescue => e
-            puts e.message
+            message(e)
             exit 1
           end
         end

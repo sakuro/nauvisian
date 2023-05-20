@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
+require_relative "../../message_helper"
+
 module Nauvisian
   module CLI
     module Commands
       module Mod
         class Disable < Dry::CLI::Command
+          include MessageHelper
+
           desc "Disable a installed MOD"
           argument :mod, desc: "Target MOD", required: true
 
@@ -18,7 +22,7 @@ module Nauvisian
             list.disable(mod)
             list.save(mod_list_path)
           rescue Nauvisian::ModNotFound
-            puts "You can't disable a MOD which is not in the MOD list"
+            message "You can't disable a MOD which is not in the MOD list"
             exit 1
           end
         end
