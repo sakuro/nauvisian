@@ -22,13 +22,20 @@ module Nauvisian
             def call(save_file:, **options)
               save_file_path = Pathname(save_file)
               save = Nauvisian::Save.load(save_file_path)
-              mods_in_save = save.mods.sort # [[mod, version]]
-
               options[:mod_directory] = Pathname(options[:mod_directory])
-              existing_mods = ExistingMods.new(**options)
 
+              sync_mods(save, **options)
+              sync_settings(save, **options)
+            rescue => e
+              message(e)
+              exit 1
+            end
+
+            def sync_mods(save, **options)
+              existing_mods = ExistingMods.new(**options)
               downloader = Nauvisian::Downloader.new(credential: find_credential, progress: options[:verbose] ? Nauvisian::Progress::Bar : Nauvisian::Progress::Null)
 
+              mods_in_save = save.mods.sort
               mods_in_save.each do |mod, version|
                 next if mod.base?
 
@@ -40,13 +47,17 @@ module Nauvisian
 
               list = Nauvisian::ModList.new(mods_in_save.map {|mod, _version| [mod, true] })
               list.save(options[:mod_directory] / "mod-list.json")
+            end
 
-              settings = Nauvisian::ModSettings.load(options[:mod_directory] / "mod-settings.dat")
+            def sync_settings(save, **options)
+              settings_path = options[:mod_directory] / "mod-settings.dat"
+              begin
+                settings = Nauvisian::ModSettings.load(settings_path)
+              rescue Errno::ENOENT
+                settings = Nauvisian::ModSettings.new(version: save.version, properties: {"startup" => {}, "runtime-global" => {}, "runtime-per-user" => {}})
+              end
               settings["startup"] = save.startup_settings
-              settings.save(options[:mod_directory] / "mod-settings.dat")
-            rescue => e
-              message(e)
-              exit 1
+              settings.save(settings_path)
             end
 
             class ExistingMods
