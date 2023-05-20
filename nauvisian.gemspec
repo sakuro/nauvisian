@@ -37,6 +37,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "aws-sdk-s3", "~> 1.0"
+  spec.add_dependency "dry-auto_inject", "~> 1.0"
   spec.add_dependency "dry-cli", "~> 1.0"
   spec.add_dependency "dry-inflector", "~> 1.0"
   spec.add_dependency "rack", "~> 3.0"
