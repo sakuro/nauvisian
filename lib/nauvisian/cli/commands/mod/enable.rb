@@ -17,7 +17,7 @@ module Nauvisian
             mod = Nauvisian::Mod[name: mod]
             list.enable(mod)
             list.save(mod_list_path)
-          rescue Nauvisian::ModList::NotListedError
+          rescue Nauvisian::ModNotFound
             puts "You can't enable a MOD which is not in the MOD list"
             exit 1
           end
