@@ -24,14 +24,9 @@ module Nauvisian
 
       def fetch(key)
         path = generate_path(key)
-
         return path.binread if path.exist? && !stale?(path, Time.now)
 
         yield.tap {|content| store(path, content) }
-      rescue Errno::EEXIST
-        # This can happen when other process/thread is refreshing the cache.
-        # We can try reading the refreshed data next time.
-        retry
       end
 
       private def generate_path(key)
