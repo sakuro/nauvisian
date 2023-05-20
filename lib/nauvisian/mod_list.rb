@@ -36,13 +36,13 @@ module Nauvisian
     end
 
     def add(mod, enabled: nil)
-      raise ArgumentError, "Can't disable the base mod" if mod.base? && enabled == false
+      raise ArgumentError, "can't disable the base mod" if mod.base? && enabled == false
 
       @mods[mod] = enabled.nil? ? true : enabled
     end
 
     def remove(mod)
-      raise ArgumentError, "Can't remove the base mod" if mod.base?
+      raise ArgumentError, "can't remove the base mod" if mod.base?
 
       @mods.delete(mod)
     end
@@ -62,7 +62,7 @@ module Nauvisian
     end
 
     def disable(mod)
-      raise ArgumentError, "Can't disalbe the base mod" if mod.base?
+      raise ArgumentError, "can't disalbe the base mod" if mod.base?
       raise Nauvisian::ModNotFound, mod unless exist?(mod)
 
       @mods[mod] = false

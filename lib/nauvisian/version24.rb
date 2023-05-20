@@ -14,7 +14,7 @@ module Nauvisian
       in [Integer, Integer, Integer] if args.all? {|e| e.is_a?(Numeric) && e.integer? && e.between?(0, UINT8_MAX) }
         @version = args
       else
-        raise ArgumentError, "Expect version string or 3-tuple: %p" % [args]
+        raise ArgumentError, "expect version string or 3-tuple: %p" % [args]
       end
       @version.freeze
       freeze
