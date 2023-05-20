@@ -22,7 +22,7 @@ module Nauvisian
             list.enable(mod)
             list.save(mod_list_path)
           rescue Nauvisian::ModNotFound
-            message "You can't enable a MOD which is not in the MOD list"
+            message "❌ You can't enable a MOD which is not in the MOD list (#{mod.name})"
             exit 1
           end
         end

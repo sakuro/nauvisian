@@ -22,7 +22,7 @@ module Nauvisian
             list.disable(mod)
             list.save(mod_list_path)
           rescue Nauvisian::ModNotFound
-            message "You can't disable a MOD which is not in the MOD list"
+            message "❌ You can't disable a MOD which is not in the MOD list (#{mod.name})"
             exit 1
           end
         end

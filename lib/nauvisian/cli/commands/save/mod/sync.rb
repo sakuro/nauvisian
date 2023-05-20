@@ -71,21 +71,22 @@ module Nauvisian
               def release_to_download(mod, version)
                 message "⚙ Checking #{mod.name} #{version} ... "
 
+                # TODO: Take version requirement into consideration
                 case @mods
                 in [*, [^mod, [*, ^version, *]], *]
-                  message "✓ Exact version exists, nothing to do"
+                  message "✓ Exact version (#{version}) exists, nothing to do"
                 in [*, [^mod, [*versions]], *]
                   if exact?
-                    message "📥 some versions are installed but exact version is requested"
+                    message "📥 some versions are installed but exact version (#{version}) is requested"
                     find_release(mod, version:)
                   elsif versions.all? {|v| v < version }
-                    message "📥 all versions are older than #{version}, let's download the latest"
+                    message "📥 all versions are older than the version in the save (#{version}), downloading the latest"
                     find_release(mod)
                   else
                     message "✓ newer version exists, nothing to do"
                   end
                 else
-                  message "❌ MOD is not installed"
+                  message "📥 MOD is not installed"
                   exact? ? find_release(mod, version:) : find_release(mod)
                 end
               end
