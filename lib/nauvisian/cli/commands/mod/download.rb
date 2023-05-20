@@ -11,7 +11,7 @@ module Nauvisian
           include DownloadHelper
           include MessageHelper
 
-          desc "Download a MOD"
+          desc "Download a MOD to the current directory"
           argument :mod, desc: "Target MOD", required: true
           option :version, desc: "Version to download (default: latest)"
           option :user, desc: "The user at MOD Portal"

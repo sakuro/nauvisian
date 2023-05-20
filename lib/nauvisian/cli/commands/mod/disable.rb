@@ -9,7 +9,7 @@ module Nauvisian
         class Disable < Dry::CLI::Command
           include MessageHelper
 
-          desc "Disable a installed MOD"
+          desc "Disable an installed MOD"
           argument :mod, desc: "Target MOD", required: true
 
           option :mod_directory, desc: "Directory where MODs are installed", required: false, default: Nauvisian.platform.mod_directory.to_s
