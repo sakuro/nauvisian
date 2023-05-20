@@ -1,34 +1,54 @@
 # Nauvisian
 
-TODO: Delete this and the text below, and describe your gem
+A library and CLI tool for the management of [Factorio](https://factorio.com) MODs and saves.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/nauvisian`. To experiment with that code, run `bin/console` for an interactive prompt.
+It eases downloading MODs, enabling/disabling locally installed MODs and synchroning MODs and settings with save files.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ bundle add nauvisian
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ gem install nauvisian
 
-## Usage
+## CLI Usage
 
-TODO: Write usage instructions here
+- `nvsn mod disable MOD`
+    Disable an installed MOD
+- `nvsn mod download MOD` 🔐
+    Download a MOD to the current directory
+- `nvsn mod enable MOD`
+    Enable an installed MOD
+- `nvsn mod info MOD` 🖧
+    Show info of MOD
+- `nvsn mod installed`
+    List installed MODs
+- `nvsn mod latest MOD` 🖧
+    Show the latest version of MOD
+- `nvsn mod versions MOD` 🖧
+    List available versions of MOD
+- `nvsn mod settings dump`
+    Dump MOD settings
+- `nvsn save mod list SAVE`
+    List MODs used in the given SAVE
+- `nvsn save mod sync SAVE` 🔐
+    Synchronize MODs and startup settings with the given SAVE
+
+For options recognized by the commands above, try the command with `--help`.
+
+- Commands with 🔐 requires the credenail information generally found in your `player-data.json`
+- Commands with 🖧 accesses MOD portal's public API
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+After checking out the repo, run `bin/setup` to install dependencies.  It also copies currently installed MODs and saves into the workspace.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/nauvisian.
+Bug reports and pull requests are welcome on GitHub at https://github.com/sakuro/nauvisian.
 
 ## License
 
