@@ -16,6 +16,9 @@ module Nauvisian
             releases.each do |release|
               puts release.version
             end
+          rescue => e
+            puts e.message
+            exit 1
           end
         end
       end

@@ -24,6 +24,9 @@ module Nauvisian
               Created at: #{detail.created_at}
               Description: #{detail.description}
             DETAIL
+          rescue => e
+            puts e.message
+            exit 1
           end
         end
       end

@@ -20,6 +20,9 @@ module Nauvisian
 
               lister = Nauvisian::CLI::Lister.for(options[:format].to_sym).new(%w(Name Version))
               lister.list(rows)
+            rescue => e
+              puts e.message
+              exit 1
             end
           end
         end

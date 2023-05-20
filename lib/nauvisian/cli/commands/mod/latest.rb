@@ -15,6 +15,9 @@ module Nauvisian
             latest = releases.max_by(&:released_at)
 
             puts latest.version
+          rescue => e
+            puts e.message
+            exit 1
           end
         end
       end

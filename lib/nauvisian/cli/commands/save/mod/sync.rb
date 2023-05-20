@@ -42,6 +42,9 @@ module Nauvisian
               settings = Nauvisian::ModSettings.load(options[:mods_directory] / "mod-settings.dat")
               settings["startup"] = save.startup_settings
               settings.save(options[:mods_directory] / "mod-settings.dat")
+            rescue => e
+              puts e.message
+              exit 1
             end
 
             class ExistingMods

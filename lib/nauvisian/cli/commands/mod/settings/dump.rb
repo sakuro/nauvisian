@@ -12,6 +12,9 @@ module Nauvisian
 
             def call(**)
               puts Nauvisian::ModSettings.load.to_json
+            rescue => e
+              puts e.message
+              exit 1
             end
           end
         end
