@@ -8,11 +8,11 @@ module Nauvisian
           desc "Enable a installed MOD"
           argument :mod, desc: "Target MOD", required: true
 
-          option :mods_directory, desc: "Directory where MODs are installed", required: false, default: Nauvisian.platform.mods_directory.to_s
+          option :mod_directory, desc: "Directory where MODs are installed", required: false, default: Nauvisian.platform.mod_directory.to_s
 
           def call(mod:, **options)
-            mods_directory = Pathname(options[:mods_directory])
-            mod_list_path = mods_directory / "mod-list.json"
+            mod_directory = Pathname(options[:mod_directory])
+            mod_list_path = mod_directory / "mod-list.json"
             list = Nauvisian::ModList.load(mod_list_path)
             mod = Nauvisian::Mod[name: mod]
             list.enable(mod)

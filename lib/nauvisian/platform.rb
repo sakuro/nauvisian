@@ -19,9 +19,9 @@ module Nauvisian
       end
     end
 
-    def mods_directory = user_data_directory / "mods"
+    def mod_directory = user_data_directory / "mods"
 
-    def saves_directory = user_data_directory / "saves"
+    def save_directory = user_data_directory / "saves"
 
     def script_output_directory = user_data_directory / "script-output"
 

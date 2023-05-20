@@ -13,7 +13,7 @@ module Nauvisian
             desc "Synchronize MODs and settings with the given save"
             argument :save_file, desc: "Save file of a Factorio game", required: true
 
-            option :mods_directory, desc: "Directory where MODs are installed", required: false, default: Nauvisian.platform.mods_directory.to_s
+            option :mod_directory, desc: "Directory where MODs are installed", required: false, default: Nauvisian.platform.mod_directory.to_s
             option :exact, desc: "Use exact version", type: :boolean, default: false
             option :verbose, desc: "Print extra information", type: :boolean, default: false
 
@@ -22,7 +22,7 @@ module Nauvisian
               save = Nauvisian::Save.load(save_file_path)
               mods_in_save = save.mods.sort # [[mod, version]]
 
-              options[:mods_directory] = Pathname(options[:mods_directory])
+              options[:mod_directory] = Pathname(options[:mod_directory])
               existing_mods = ExistingMods.new(**options)
 
               downloader = Nauvisian::Downloader.new(credential: find_credential, progress: options[:verbose] ? Nauvisian::Progress::Bar : Nauvisian::Progress::Null)
@@ -33,15 +33,15 @@ module Nauvisian
                 release = existing_mods.release_to_download(mod, version)
                 next unless release
 
-                downloader.download(release, options[:mods_directory] / release.file_name)
+                downloader.download(release, options[:mod_directory] / release.file_name)
               end
 
               list = Nauvisian::ModList.new(mods_in_save.map {|mod, _version| [mod, true] })
-              list.save(options[:mods_directory] / "mod-list.json")
+              list.save(options[:mod_directory] / "mod-list.json")
 
-              settings = Nauvisian::ModSettings.load(options[:mods_directory] / "mod-settings.dat")
+              settings = Nauvisian::ModSettings.load(options[:mod_directory] / "mod-settings.dat")
               settings["startup"] = save.startup_settings
-              settings.save(options[:mods_directory] / "mod-settings.dat")
+              settings.save(options[:mod_directory] / "mod-settings.dat")
             rescue => e
               puts e.message
               exit 1
@@ -50,12 +50,12 @@ module Nauvisian
             class ExistingMods
               include DownloadHelper
 
-              def initialize(mods_directory:, exact:, verbose:)
+              def initialize(mod_directory:, exact:, verbose:)
                 @exact = exact
                 @verbose = verbose
 
-                zips = mods_directory.glob("*.zip")
-                directories = mods_directory.entries.select(&:directory?)
+                zips = mod_directory.glob("*.zip")
+                directories = mod_directory.entries.select(&:directory?)
                 # [[mod, [version...]]
                 @mods = [*zips, *directories].filter_map {|path|
                   /(?<name>.*)_(?<version>\d+\.\d+\.\d+)(?:\.zip|$)\z/ =~ path.basename.to_s && [Nauvisian::Mod[name:], Nauvisian::Version24[version]]
