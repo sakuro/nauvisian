@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "dry/configurable"
-require "dry/inflector"
 
 require_relative "nauvisian/error"
 
@@ -17,10 +16,6 @@ require_relative "nauvisian/version24"
 require_relative "nauvisian/version64"
 
 module Nauvisian
-  def self.inflector
-    @inflector ||= Dry::Inflector.new
-  end
-
   def self.platform
     @platform ||= Nauvisian::Platform.platform
   end

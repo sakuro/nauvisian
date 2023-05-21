@@ -17,8 +17,9 @@ module Nauvisian
       end
 
       def self.inherited(subclass)
-        demodulized = Nauvisian.inflector.demodulize(subclass.name)
-        underscored = Nauvisian.inflector.underscore(demodulized)
+        inflector = Nauvisian.resolve("inflector")
+        demodulized = inflector.demodulize(subclass.name)
+        underscored = inflector.underscore(demodulized)
         @listers[underscored.to_sym] = subclass
 
         super
