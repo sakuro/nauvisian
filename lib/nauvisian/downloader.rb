@@ -5,13 +5,11 @@ require "open-uri"
 
 require "rack/utils"
 
+require "nauvisian"
+
 module Nauvisian
   class Downloader
-    def initialize(credential:, progress: Nauvisian::Progress::Null)
-      @credential = credential
-      @progress_class = progress
-      @cache = Nauvisian::Cache::FileSystem.new(name: "download", ttl: Float::INFINITY)
-    end
+    include Import["downloader.credential", "downloader.progress_class", cache: "cache.download"]
 
     def download(release, output_path)
       with_error_handling(release) do

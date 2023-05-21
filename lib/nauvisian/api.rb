@@ -5,7 +5,7 @@ require "open-uri"
 
 require "rack/utils"
 
-require "nauvisian/error"
+require "nauvisian"
 
 module Nauvisian
   # Mod Portal API
@@ -13,12 +13,10 @@ module Nauvisian
   class API
     class Error < Nauvisian::Error; end
 
+    include Import[cache: "cache.api"]
+
     MOD_PORTAL_ENDPOINT_URI = URI("https://mods.factorio.com").freeze
     private_constant :MOD_PORTAL_ENDPOINT_URI
-
-    def initialize
-      @cache = Nauvisian::Cache::FileSystem.new(name: "api")
-    end
 
     def detail(mod)
       with_error_handling(mod) do

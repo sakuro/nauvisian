@@ -40,6 +40,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "aws-sdk-s3", "~> 1.0"
   spec.add_dependency "dry-auto_inject", "~> 1.0"
   spec.add_dependency "dry-cli", "~> 1.0"
+  spec.add_dependency "dry-configurable", "~> 1.0"
+  spec.add_dependency "dry-container", "~> 0.11"
   spec.add_dependency "dry-inflector", "~> 1.0"
   spec.add_dependency "rack", "~> 3.0"
   spec.add_dependency "redis", "~> 5.0"
