@@ -37,7 +37,7 @@ module Nauvisian
       DEFAULT_NVSNRC = File.join(__dir__, "../../nvsnrc.default")
       private_constant :DEFAULT_NVSNRC
 
-      config_path = File.join(ENV.fetch("XDB_CONFIG_HOME", File.expand_path("~/.config")), "nvsnrc")
+      config_path = File.join(ENV.fetch("XDG_CONFIG_HOME", File.expand_path("~/.config")), "nvsnrc")
       FileUtils.cp(DEFAULT_NVSNRC, config_path) unless File.exist?(config_path)
       load(config_path)
     end
