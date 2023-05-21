@@ -36,11 +36,14 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) {|f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "aws-sdk-elasticache", "~> 1.0"
   spec.add_dependency "aws-sdk-s3", "~> 1.0"
   spec.add_dependency "dry-auto_inject", "~> 1.0"
   spec.add_dependency "dry-cli", "~> 1.0"
   spec.add_dependency "dry-inflector", "~> 1.0"
   spec.add_dependency "rack", "~> 3.0"
+  spec.add_dependency "redis", "~> 5.0"
+  spec.add_dependency "redis-namespace", "~> 1.0"
   spec.add_dependency "ruby-progressbar", "~> 1.11"
   spec.add_dependency "rubyzip", "~> 2.3"
 end

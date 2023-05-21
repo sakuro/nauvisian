@@ -13,3 +13,5 @@
 # copy of mods/ and saves/
 /mods/
 /saves/
+
+/tmp/

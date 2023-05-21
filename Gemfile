@@ -16,6 +16,7 @@ end
 group :test do
   gem "fabrication", require: false
   gem "faker", require: false
+  gem "mock_redis", require: false
   gem "rspec", require: false
   gem "rubocop", require: false
   gem "rubocop-performance", require: false

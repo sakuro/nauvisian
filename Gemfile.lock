@@ -2,11 +2,14 @@ PATH
   remote: .
   specs:
     nauvisian (0.1.0)
+      aws-sdk-elasticache (~> 1.0)
       aws-sdk-s3 (~> 1.0)
       dry-auto_inject (~> 1.0)
       dry-cli (~> 1.0)
       dry-inflector (~> 1.0)
       rack (~> 3.0)
+      redis (~> 5.0)
+      redis-namespace (~> 1.0)
       ruby-progressbar (~> 1.11)
       rubyzip (~> 2.3)
 
@@ -23,6 +26,9 @@ GEM
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
+    aws-sdk-elasticache (1.85.0)
+      aws-sdk-core (~> 3, >= 3.165.0)
+      aws-sigv4 (~> 1.1)
     aws-sdk-kms (1.64.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
@@ -33,6 +39,7 @@ GEM
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
     concurrent-ruby (1.2.2)
+    connection_pool (2.4.1)
     crack (0.4.5)
       rexml
     debug (1.8.0)
@@ -59,6 +66,8 @@ GEM
       reline (>= 0.3.0)
     jmespath (1.6.2)
     json (2.6.3)
+    mock_redis (0.36.0)
+      ruby2_keywords
     parallel (1.23.0)
     parser (3.2.2.1)
       ast (~> 2.4.1)
@@ -67,6 +76,12 @@ GEM
     rainbow (3.1.1)
     rake (13.0.6)
     rbs (3.1.0)
+    redis (5.0.6)
+      redis-client (>= 0.9.0)
+    redis-client (0.14.1)
+      connection_pool
+    redis-namespace (1.10.0)
+      redis (>= 4)
     regexp_parser (2.8.0)
     reline (0.3.3)
       io-console (~> 0.5)
@@ -110,6 +125,7 @@ GEM
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
     ruby-progressbar (1.13.0)
+    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     simplecov (0.22.0)
       docile (~> 1.1)
@@ -134,6 +150,7 @@ DEPENDENCIES
   debug
   fabrication
   faker
+  mock_redis
   nauvisian!
   rake
   rspec
