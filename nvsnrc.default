@@ -1,7 +1,6 @@
-# frozen-string_literal: true
-# -*- ruby -*-
+# frozen_string_literal: true
 
 Nauvisian.configure do |config|
   config.cache.api = Nauvisian::Cache::FileSystem.new(name: "api")
-  #config.cache.api = Nauvisian::Cache::Redis.new(name: "api")
+  # config.cache.api = Nauvisian::Cache::Redis.new(name: "api")
 end
