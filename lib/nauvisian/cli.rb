@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "pathname"
+
 require "dry/cli"
 
 require "nauvisian"
@@ -31,6 +33,13 @@ module Nauvisian
 
       register "save mod list", Nauvisian::CLI::Commands::Save::Mod::List
       register "save mod sync", Nauvisian::CLI::Commands::Save::Mod::Sync
+
+      DEFAULT_NVSNRC = File.join(__dir__, "../../nvsnrc.default")
+      private_constant :DEFAULT_NVSNRC
+
+      config_path = File.join(ENV.fetch("XDB_CONFIG_HOME", File.expand_path("~/.config")), "nvsnrc")
+      FileUtils.cp(DEFAULT_NVSNRC, config_path) unless File.exist?(config_path)
+      load(config_path)
     end
   end
 end
