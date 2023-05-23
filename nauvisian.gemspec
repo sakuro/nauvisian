@@ -36,7 +36,6 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) {|f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "aws-sdk-elasticache", "~> 1.0"
   spec.add_dependency "aws-sdk-s3", "~> 1.0"
   spec.add_dependency "dry-auto_inject", "~> 1.0"
   spec.add_dependency "dry-cli", "~> 1.0"
