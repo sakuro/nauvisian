@@ -27,3 +27,6 @@ jobs:
         bundler-cache: true
     - name: Run the default task
       run: bundle exec rake
+      env:
+        FACTORIO_SERVICE_USERNAME: dummy
+        FACTORIO_SERVICE_TOKEN: dummy
