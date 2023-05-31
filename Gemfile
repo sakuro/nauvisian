@@ -4,10 +4,6 @@ source "https://rubygems.org"
 
 gemspec
 
-group :development do
-  gem "typeprof"
-end
-
 group :development, :test do
   gem "debug"
   gem "rake"
