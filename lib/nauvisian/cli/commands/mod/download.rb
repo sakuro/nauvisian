@@ -21,7 +21,7 @@ module Nauvisian
             credential = find_credential(**options.slice(:user, :token))
             release = find_release(Nauvisian::Mod[name: mod], version: options.key?(:version) ? Nauvisian::Version24[options[:version]] : nil)
 
-            downloader = Nauvisian::Downloader.new(credential:, progress: Nauvisian::Progress::Bar)
+            downloader = Nauvisian::Downloader.new(credential:, progress_class: Nauvisian::Progress::Bar)
             downloader.download(release, release.file_name)
           rescue => e
             message(e)
