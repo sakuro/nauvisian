@@ -92,9 +92,17 @@ module Nauvisian
         write_bool(false)
         write_double(dbl)
       in String => str
-        write_u8(3)
-        write_bool(false)
-        write_str_property(str)
+        case str
+        when /\Argba:(?<r>\h{2})(?<g>\h{2})(?<b>\h{2})(?<a>\h{2})\z/
+          # convert "rgba:RRGGBBAA" to {"r": RR, "g": GG, "b": BB, "a": AA }"
+          write_u8(5)
+          write_bool(false)
+          write_dictionary(%w[r g b a].each_with_object({}) {|k, dict| dict[k] = $~[k].to_i(16) / 255.0 })
+        else
+          write_u8(3)
+          write_bool(false)
+          write_str_property(str)
+        end
       in Array => list
         write_u8(4)
         write_bool(false)
