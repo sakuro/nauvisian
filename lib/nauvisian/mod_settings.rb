@@ -39,8 +39,8 @@ module Nauvisian
       @properties[key] = properties
     end
 
-    def to_json(*args)
-      JSON.generate(@properties.merge(version: @version), *args)
+    def to_json(*)
+      JSON.generate(@properties.merge(version: @version), *)
     end
   end
 end
