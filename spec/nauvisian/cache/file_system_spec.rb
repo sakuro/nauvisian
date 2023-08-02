@@ -92,8 +92,7 @@ RSpec.describe Nauvisian::Cache::FileSystem do
 
     context "when cached data exists" do
       before do
-        allow(path).to receive(:exist?).and_return(true)
-        allow(path).to receive(:binread).and_return("cached value")
+        allow(path).to receive_messages(exist?: true, binread: "cached value")
       end
 
       context "when cached data is stale" do
