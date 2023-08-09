@@ -81,7 +81,7 @@ module Nauvisian
       end
     end
 
-    def write_property_tree(obj)
+    def write_property_tree(obj) # rubocop:disable Metrics/CyclomaticComplexity
       case obj
       in true | false => bool
         write_u8(1)

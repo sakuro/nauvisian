@@ -78,7 +78,7 @@ module Nauvisian
     RGBA_SORTED = RGBA.sort.freeze
     private_constant :RGBA_SORTED
 
-    def read_property_tree
+    def read_property_tree # rubocop:disable Metrics/CyclomaticComplexity
       type = read_u8
       _any_type_flag = read_bool
 
