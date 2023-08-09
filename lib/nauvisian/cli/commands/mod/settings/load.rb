@@ -16,7 +16,7 @@ module Nauvisian
 
             def call(settings_json_path:, **options)
               mod_directory = Pathname(options[:mod_directory])
-              dumped_settings = JSON.load(File.read(settings_json_path))
+              dumped_settings = JSON.parse(File.read(settings_json_path))
               version = Nauvisian::Version64[*dumped_settings["version"]]
               properties = dumped_settings.except("version")
               settings = Nauvisian::ModSettings.new(version:, properties:)
