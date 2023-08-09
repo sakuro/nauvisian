@@ -73,6 +73,11 @@ module Nauvisian
       end
     end
 
+    RGBA = %w[r g b a].freeze
+    private_constant :RGBA
+    RGBA_SORTED = RGBA.sort.freeze
+    private_constant :RGBA_SORTED
+
     def read_property_tree
       type = read_u8
       _any_type_flag = read_bool
@@ -87,7 +92,13 @@ module Nauvisian
       when 4
         read_list
       when 5
-        read_dictionary
+        dict = read_dictionary
+        if dict.keys.sort == RGBA_SORTED
+          # convert {"r": RR, "g": GG, "b": BB, "a": AA } to "rgba:RRGGBBAA"
+          "rgba:%02x%02x%02x%02x" % RGBA.map {|k| dict[k] * 255 }
+        else
+          dict
+        end
       else
         raise Nauvisian::UnknownPropertyType, type
       end
