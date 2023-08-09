@@ -13,6 +13,7 @@ require_relative "cli/commands/mod/info"
 require_relative "cli/commands/mod/installed"
 require_relative "cli/commands/mod/latest"
 require_relative "cli/commands/mod/settings/dump"
+require_relative "cli/commands/mod/settings/load"
 require_relative "cli/commands/mod/versions"
 require_relative "cli/commands/save/mod/list"
 require_relative "cli/commands/save/mod/sync"
@@ -30,6 +31,7 @@ module Nauvisian
       register "mod latest", Nauvisian::CLI::Commands::Mod::Latest
       register "mod versions", Nauvisian::CLI::Commands::Mod::Versions
       register "mod settings dump", Nauvisian::CLI::Commands::Mod::Settings::Dump
+      register "mod settings load", Nauvisian::CLI::Commands::Mod::Settings::Load
 
       register "save mod list", Nauvisian::CLI::Commands::Save::Mod::List
       register "save mod sync", Nauvisian::CLI::Commands::Save::Mod::Sync
