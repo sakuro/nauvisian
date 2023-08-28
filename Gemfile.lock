@@ -59,7 +59,7 @@ GEM
       zeitwerk (~> 2.6)
     dry-inflector (1.0.0)
     fabrication (2.30.0)
-    faker (3.2.0)
+    faker (3.2.1)
       i18n (>= 1.8.11, < 2)
     hashdiff (1.0.1)
     i18n (1.14.1)
